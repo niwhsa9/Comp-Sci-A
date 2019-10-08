@@ -18,7 +18,7 @@ public class Constants {
 
 
 	/** Paddle Constants **/
-	public static final double PaddleVelocityNormal = 200.0;
+	public static final double PaddleVelocityNormal = 300.0;
 	public static final double PaddleVelocitySlow = 2.0;
 	public static final double PaddleVelocityFast = 10.0;
 	public static final double PaddleWidth = 12;

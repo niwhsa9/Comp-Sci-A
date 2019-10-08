@@ -30,6 +30,7 @@ public class Ball extends GameObject{
 		this.x = startX;
 		this.y = startY;
 		this.theta = ((int)Math.round(Math.random()) == 1) ? 0 : Math.PI;
+		this.speed = Constants.BallVelocityNormal;
 	}
 	
 	@Override

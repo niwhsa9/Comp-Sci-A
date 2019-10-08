@@ -50,6 +50,16 @@ public class PongScene extends Scene{
 			
 			((UserPaddle) paddles[1]).setKeys(Constants.KEY_DOWN, Constants.KEY_UP);
 			paddles[1].setDeflectionDir(Math.PI);
+		} else if(selection == 3) {
+			gameObjects[0] = new AIPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
+			gameObjects[1] = new Ball(Constants.BallStartX, Constants.BallStartY, Constants.BallDiameter, Constants.BallDiameter);
+			gameObjects[2] = new AIPaddle(Constants.WindowDims.width-Constants.PaddleStartX-Constants.PaddleWidth, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
+			
+			balls[0] = (Ball) gameObjects[1];
+			paddles[0] = (Paddle) gameObjects[0];
+			paddles[1] = (Paddle) gameObjects[2];
+			paddles[0].setDeflectionDir(0);
+			balls[0].theta = Math.PI/2 - 0.4;
 		}
     }
     
@@ -101,6 +111,11 @@ public class PongScene extends Scene{
 					double sign = (base > 0) ? 1 : -1;
 					ball.theta = sign*(base + Constants.PaddleDeflectionConstant * (paddle.centerY()-ball.centerY())); 
 					//System.out.println("theta"+ ball.theta +"delta" +(paddle.centerY()-ball.centerY()));
+					
+					if( Math.sin(paddle.theta)*paddle.speed * Math.sin(ball.theta)*ball.speed > 0 ) {
+						ball.theta = Math.atan2((Math.sin(ball.theta)),(1.3*Math.cos(ball.theta)));
+						ball.speed = Math.pow(Math.pow(ball.speed*Math.sin(ball.theta),2) + Math.pow(1.3*ball.speed*Math.cos(ball.theta),2),0.5);
+					}
 				}
 			}
 			
