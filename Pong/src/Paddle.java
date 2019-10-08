@@ -21,6 +21,10 @@ public class Paddle extends GameObject {
 
 	} 
 	
+	public void reset() {
+		setCenterY(Constants.WindowDims.height/2);
+	}
+	
 	public void update(double dt) {
 		super.update(dt);
 		if(topY() <= 0) setTopY(0); 

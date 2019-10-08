@@ -32,6 +32,8 @@ public class Constants {
 	public static final int KEY_S = 83;
 	public static final int KEY_UP = 38;
 	public static final int KEY_DOWN = 40;
+	public static final int KEY_SPACE = 32;
+
 
 
 

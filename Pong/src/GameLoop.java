@@ -26,7 +26,6 @@ public class GameLoop {
 				window = new Window(Constants.WindowName, (int)Constants.WindowDims.getWidth(), (int)Constants.WindowDims.getHeight());
 				window.getContentPane().setPreferredSize(Constants.WindowDims);
 				window.pack();
-				
 				Input input = new Input();
 				window.addKeyListener(input);
 				

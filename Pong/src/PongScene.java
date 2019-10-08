@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -18,6 +19,7 @@ public class PongScene extends Scene{
 	boolean gameEnd = false;
 	public double timeLeft;
     BufferedImage background; 
+    Font scoreFont = new Font("Serif", Font.BOLD, 30);
     int scoreL = 0;
     int scoreR = 0;
 	//BufferedImage background
@@ -32,7 +34,7 @@ public class PongScene extends Scene{
 		if(selection == 1) {
 			gameObjects[0] = new UserPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
 			gameObjects[1] = new Ball(Constants.BallStartX, Constants.BallStartY, Constants.BallDiameter, Constants.BallDiameter);
-			gameObjects[2] = new AIPaddle(Constants.WindowDims.width-Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
+			gameObjects[2] = new AIPaddle(Constants.WindowDims.width-Constants.PaddleStartX-Constants.PaddleWidth, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
 
 			balls[0] = (Ball) gameObjects[1];
 			paddles[0] = (Paddle) gameObjects[0];
@@ -66,16 +68,32 @@ public class PongScene extends Scene{
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, Constants.WindowDims.width, Constants.WindowDims.height);
 		g2d.drawImage(background, 0, 0, null);
-		for(GameObject gameObject : gameObjects) gameObject.paintComponent(g);		
+		g2d.setColor(Color.WHITE);
+		g2d.setFont(scoreFont);
 		
+		if(!gameEnd) {
+			for(GameObject gameObject : gameObjects) gameObject.paintComponent(g);	
+		} else {
+			String winner = "Left side";
+			if(scoreR > scoreL) winner = "Right side";
+			drawCenteredString(g2d, winner + " wins!", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2);
+			drawCenteredString(g2d, "Press Space to Restart", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2 + 50);
+		}
+		
+		g2d.drawString(""+scoreL, Constants.WindowDims.width/2 - 70, 100);
+		g2d.drawString(""+scoreR, Constants.WindowDims.width/2 + 70, 100);
+	
+
 	}
 	
 	public void gameEnd() {
 		//if(gameEnd ) 
+		gameEnd = true;
 	}
 
 	public synchronized void update(double dt) {
 		//Check collisions 
+		if(!gameEnd) {
 		for(Ball ball : balls) {
 			for(Paddle paddle : paddles) {
 				if(ball.hitbox.intersects(paddle.hitbox) && ball.collisionLock == false) {
@@ -101,6 +119,14 @@ public class PongScene extends Scene{
 		
 		for(GameObject gameObject : gameObjects) {
 			gameObject.update(dt);			
+		}
+		
+		if(scoreL > 1 || scoreR > 1) {
+			gameEnd();
+		}
+		}
+		if(gameEnd && Input.keysPressed[Constants.KEY_SPACE]) {
+			isDone = true;
 		}
 
 	}

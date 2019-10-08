@@ -19,10 +19,10 @@ public class Menu extends Scene {
 		g2d.fillRect(0, 0, 1920, 1080);
 		g2d.setColor(Color.RED);
 	//	g2d.setFont(new Font("TimesRoman", Font.PLAIN, 30)); 
-		g2d.drawString("Select 1 for Bouncy Ball", 50, 100);
-		g2d.drawString("Select 2 for User Control Ball", 50, 200);
-		g2d.drawString("Select 3 for Gravity Ball", 50, 300);
-		g2d.drawString("Select 4 for Phase Through Ball", 50, 400);
+		g2d.drawString("Select 1 for single player", 50, 100);
+		g2d.drawString("Select 2 for local multiplayer", 50, 200);
+		//g2d.drawString("Select 3 for Gravity Ball", 50, 300);
+		//g2d.drawString("Select 4 for Phase Through Ball", 50, 400);
 
 
 
@@ -41,6 +41,7 @@ public class Menu extends Scene {
 			PongScene s = new PongScene();
 			s.initGame(selection);
 			sceneQueue.add(s);
+			sceneQueue.add(new Menu(sceneQueue));
 			isDone = true;
 		}
 	}
