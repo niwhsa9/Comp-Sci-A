@@ -5,10 +5,12 @@ import java.awt.geom.Rectangle2D;
 
 public class Paddle extends GameObject {
 	double knownBallY = 0;
+	double knownBallTheta = 0;
 	public double deflectionDir = 0; //set to 0 or math.pi
 	
-	public void updateKnownBall(double y) {
+	public void updateKnownBall(double y, double theta) {
 		knownBallY = y;
+		knownBallTheta = theta;
 	}
 	
 	public void setDeflectionDir(double d) {

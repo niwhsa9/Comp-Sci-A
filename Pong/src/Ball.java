@@ -35,9 +35,15 @@ public class Ball extends GameObject{
 	
 	@Override
 	public void update(double dt) {
-		if(topY() <= 0) theta*=-1;
-		if(bottomY() >= Constants.WindowDims.height) theta*=-1;
-
+		if(topY() <= 0) { 
+			theta*=-1;
+			SoundDriver.playHit();
+		}
+		if(bottomY() >= Constants.WindowDims.height) {
+			theta*=-1;
+			SoundDriver.playHit();
+		}
+		//System.out.println(theta);
 			
 		super.update(dt);
 	}

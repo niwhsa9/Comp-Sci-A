@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.geom.Dimension2D;
+import java.io.File;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -50,9 +51,11 @@ public class GameLoop {
 		/** World Thread **/
 		while(scene == null) System.out.print("");
 		//Game loop
+		
 		double prevTime = System.currentTimeMillis()/1000.0;
 		while (true) {
 			try {
+				//SoundDriver.playHit();
 				double currentTime = System.currentTimeMillis()/1000.0;
 				scene.update(currentTime-prevTime);
 				prevTime = currentTime;

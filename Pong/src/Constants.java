@@ -26,6 +26,7 @@ public class Constants {
 	public static final double PaddleStartX = 50;
 	public static final double PaddleStartY = WindowDims.getHeight()/2 - PaddleHeight/2;
 	public static final double PaddleDeflectionConstant = 0.035;
+	public static final double SmashMultiplier = 1.5; 
 	
 	/** Key Codes **/
 	public static final int KEY_W = 87;
