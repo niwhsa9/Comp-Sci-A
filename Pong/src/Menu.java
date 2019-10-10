@@ -1,22 +1,47 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.GridLayout;
 import java.util.Queue;
 
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 public class Menu extends PongScene {
 	public int selection = -1;
 	Queue<Scene> sceneQueue;
     Font titleFont = new Font("Courier", Font.BOLD, 60);
     Font textFont = new Font("Courier", Font.BOLD, 14);
+    Font labelFont = new Font("Serif", Font.BOLD, 8);
 
+
+    JSlider gameLengthSlider = new JSlider(2, 20);
 	
 	public Menu(Queue<Scene> sceneQueue) {
 		initGame(3);
 
 		this.sceneQueue = sceneQueue;
+		/*
+		setLayout(null);
+		gameLengthSlider.setBounds(Constants.WindowDims.width/2-100, Constants.WindowDims.height/2+150, 200, 40);
+		add(gameLengthSlider, 0, 0);
+		gameLengthSlider.setPaintLabels(true);
+		gameLengthSlider.setPaintTicks(true);
+	    gameLengthSlider.setPaintTrack(true);
+	    gameLengthSlider.setFont(labelFont);
+	    gameLengthSlider.setLabelTable(gameLengthSlider.createStandardLabels(2));
+
+	    gameLengthSlider.setMajorTickSpacing(2);
+	    gameLengthSlider.setMinorTickSpacing(1); */
+
+		/*slider1.setMajorTickSpacing(100);
+	       slider1.setMinorTickSpacing(25);
+	       slider1.setPaintLabels(true);
+	       slider1.setPaintTicks(true);
+	       slider1.setPaintTrack(true);
+	       slider1.setAutoscrolls(true);*/
 	}
 	
 	public void paintComponent(Graphics g) {
@@ -41,6 +66,7 @@ public class Menu extends PongScene {
 	}
 	
 	public void update(double dt) {
+		System.out.println(gameLengthSlider.getValue());
 		super.update(dt);
 		if(Input.keysPressed[49]) {
 			//System.out.println("here");
@@ -53,6 +79,7 @@ public class Menu extends PongScene {
 		if(selection != -1) {
 			PongScene s = new PongScene();
 			s.initGame(selection);
+			//s.maxScore = gameLengthSlider.getValue();
 			sceneQueue.add(s);
 			sceneQueue.add(new Menu(sceneQueue));
 			isDone = true;

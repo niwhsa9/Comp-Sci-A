@@ -19,16 +19,17 @@ public class PowerUpManager { //powerup state machine
 	double powerUpTime;
 	
 	
-	public PowerUpManager(Paddle paddle, Ball ball) {
+	public PowerUpManager(Paddle paddle, Ball ball, double offset) {
 		this.paddle = paddle;
 		this.ball = ball;
+		lastPowerUpTime = offset;
 	}
 	
 	public void spawnPowerUp() {
 		//change ball/paddle property, record start time,activate internal animation sequence for time, check time in update
 		//System.out.println("here");
 		powerUp = new GameObject(Constants.WindowDims.width/2, Constants.WindowDims.height/2, 20, 20);
-		selectedPowerUp = rand.nextInt(1);
+		selectedPowerUp = rand.nextInt(2);
 		powerUp.setCenterX(0);
 		powerUp.setCenterY(0);
 		powerUp.speed = Constants.PowerUpTravelSpeed;
@@ -41,7 +42,7 @@ public class PowerUpManager { //powerup state machine
 		}
 		if(selectedPowerUp == 1) {
 			powerUpTime = 5.0;
-			powerUp.color = Color.RED;
+			powerUp.color = Color.BLUE;
 		}
 		
 	}
@@ -69,16 +70,23 @@ public class PowerUpManager { //powerup state machine
 			powerUpStartTime = time;
 			hasPowerUp = true;
 			powerUpAlive = false;
+			SoundDriver.playPowerUp();
 		}
 		
 		if(hasPowerUp && (time-powerUpStartTime > powerUpTime)) {
 			hasPowerUp = false;
 			selectedPowerUp = -1;
 			paddle.activeSpeed = Constants.PaddleVelocityNormal;
+			paddle.height = Constants.PaddleHeight;
+
 		}
 		if(hasPowerUp && selectedPowerUp == 0) {
 			
 			paddle.activeSpeed = Constants.PaddleVelocityFast;
+		}
+		if(hasPowerUp && selectedPowerUp == 1) {
+			
+			paddle.height = Constants.PaddleHeight * 2;
 		}
 	}
 }

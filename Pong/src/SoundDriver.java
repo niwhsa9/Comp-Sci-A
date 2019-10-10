@@ -57,7 +57,7 @@ public class SoundDriver {
 	
 	public static void playPowerUp() {
 		try {
-		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/GameOver.wav").getAbsoluteFile());
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/powerup.wav").getAbsoluteFile());
         Clip clip = AudioSystem.getClip();
         clip.open(audioInputStream);
         clip.start();

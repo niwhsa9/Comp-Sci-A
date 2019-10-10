@@ -25,6 +25,7 @@ public class PongScene extends Scene{
     Font scoreFont = new Font("Serif", Font.BOLD, 30);
     int scoreL = 0;
     int scoreR = 0;
+    int maxScore = 6;
 	//BufferedImage background
 	//public void backgroundTimer;
     
@@ -45,7 +46,8 @@ public class PongScene extends Scene{
 			paddles[0] = (Paddle) gameObjects[0];
 			paddles[1] = (Paddle) gameObjects[2];
 			
-			powerUpManagers[0] = new PowerUpManager(paddles[0], balls[0]);
+			powerUpManagers[0] = new PowerUpManager(paddles[0], balls[0], -5);
+			
 			
 		} else if(selection == 2) {
 			gameObjects[0] = new UserPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
@@ -58,6 +60,10 @@ public class PongScene extends Scene{
 			
 			((UserPaddle) paddles[1]).setKeys(Constants.KEY_DOWN, Constants.KEY_UP);
 			paddles[1].setDeflectionDir(Math.PI);
+			
+			powerUpManagers[0] = new PowerUpManager(paddles[0], balls[0], -5);
+			powerUpManagers[1] = new PowerUpManager(paddles[1], balls[0], 5);
+
 		} else if(selection == 3) {
 			gameObjects[0] = new AIPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
 			gameObjects[1] = new Ball(Constants.BallStartX, Constants.BallStartY, Constants.BallDiameter, Constants.BallDiameter);
@@ -126,7 +132,7 @@ public class PongScene extends Scene{
 					
 					double base = paddle.deflectionDir;//Math.PI-Math.floor((ball.theta+0.01)/Math.PI);
 					double sign = (base > 0) ? 1 : -1;
-					ball.theta = sign*(base + Constants.PaddleDeflectionConstant * (paddle.centerY()-ball.centerY())); 
+					ball.theta = sign*(base + Constants.PaddleHeight/paddle.height * Constants.PaddleDeflectionConstant * (paddle.centerY()-ball.centerY())); 
 					//System.out.println("theta"+ ball.theta +"delta" +(paddle.centerY()-ball.centerY()));
 					//Smash
 					if(!demo && Math.sin(paddle.theta)*paddle.speed * Math.sin(ball.theta)*ball.speed > 0 ) {
@@ -160,7 +166,7 @@ public class PongScene extends Scene{
 			if(pm != null) pm.update(dt);
 		}
 		
-		if(scoreL > 1 || scoreR > 1) {
+		if(scoreL > maxScore || scoreR > maxScore) {
 			gameEnd();
 		}
 		}
