@@ -17,10 +17,10 @@ public class UserPaddle extends Paddle {
 	public void update(double dt) {
 		if(Input.keysPressed[upKey]) {
 			theta = Math.PI/2;
-			speed = Constants.PaddleVelocityNormal;
+			speed = activeSpeed;
 		} else if(Input.keysPressed[downKey]) {
 			theta = Math.PI * 3.0/2.0;
-			speed = Constants.PaddleVelocityNormal;
+			speed = activeSpeed;
 		} else speed = 0;
 		super.update(dt);
 		

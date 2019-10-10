@@ -16,6 +16,7 @@ public class PongScene extends Scene{
 	GameObject[] gameObjects;
 	Paddle[] paddles;
 	Ball[] balls;
+	PowerUpManager[] powerUpManagers;
 	
 	boolean demo = false;
 	boolean gameEnd = false;
@@ -33,6 +34,7 @@ public class PongScene extends Scene{
     	gameObjects = new GameObject[numOfPaddle+numOfBall];
     	balls = new Ball[numOfBall];
     	paddles = new Paddle[numOfPaddle];
+    	powerUpManagers = new PowerUpManager[numOfPaddle];
 		if(selection == 1) {
 			gameObjects[0] = new UserPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
 			gameObjects[1] = new Ball(Constants.BallStartX, Constants.BallStartY, Constants.BallDiameter, Constants.BallDiameter);
@@ -42,6 +44,9 @@ public class PongScene extends Scene{
 			balls[0] = (Ball) gameObjects[1];
 			paddles[0] = (Paddle) gameObjects[0];
 			paddles[1] = (Paddle) gameObjects[2];
+			
+			powerUpManagers[0] = new PowerUpManager(paddles[0], balls[0]);
+			
 		} else if(selection == 2) {
 			gameObjects[0] = new UserPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
 			gameObjects[1] = new Ball(Constants.BallStartX, Constants.BallStartY, Constants.BallDiameter, Constants.BallDiameter);
@@ -90,6 +95,7 @@ public class PongScene extends Scene{
 		
 		if(!gameEnd) {
 			for(GameObject gameObject : gameObjects) gameObject.paintComponent(g);	
+			for(PowerUpManager pm : powerUpManagers) if(pm != null)pm.paintComponent(g);
 		} else {
 			String winner = "Left side";
 			if(scoreR > scoreL) winner = "Right side";
@@ -98,6 +104,7 @@ public class PongScene extends Scene{
 		}
 		
 		if(!demo) {
+			g2d.setColor(Color.WHITE);
 			g2d.drawString(""+scoreL, Constants.WindowDims.width/2 - 70, 100);
 			g2d.drawString(""+scoreR, Constants.WindowDims.width/2 + 70, 100);
 		}
@@ -125,7 +132,7 @@ public class PongScene extends Scene{
 					if(!demo && Math.sin(paddle.theta)*paddle.speed * Math.sin(ball.theta)*ball.speed > 0 ) {
 						ball.theta = Math.atan2((Math.sin(ball.theta)),(Constants.SmashMultiplier*Math.cos(ball.theta)));
 						ball.speed = Math.pow(Math.pow(ball.speed*Math.sin(ball.theta),2) + Math.pow(Constants.SmashMultiplier*ball.speed*Math.cos(ball.theta),2),0.5);
-					}
+					} else ball.speed = Constants.BallVelocityNormal;
 					SoundDriver.playHit();
 				}
 			}
@@ -145,9 +152,12 @@ public class PongScene extends Scene{
 			paddle.updateKnownBall(balls[0].centerY(), balls[0].theta);
 		}
 		
-		
 		for(GameObject gameObject : gameObjects) {
 			gameObject.update(dt);			
+		}
+		
+		for(PowerUpManager pm : powerUpManagers) {
+			if(pm != null) pm.update(dt);
 		}
 		
 		if(scoreL > 1 || scoreR > 1) {

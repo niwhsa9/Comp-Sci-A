@@ -13,6 +13,7 @@ public class GameObject {
 	public Rectangle2D hitbox;
 	public double speed, theta, x, y, width, height, dx, dy;
 	Color color;
+	public double activeSpeed;
 	
 	//enum PowerUp
 	//double powerUpTimer 
@@ -59,7 +60,6 @@ public class GameObject {
 	
 	
 	public void paintComponent(Graphics g) {
-		hitbox.setRect(x, y, width, height);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(color);
 		g2d.fill(hitbox);
@@ -71,6 +71,8 @@ public class GameObject {
 		double dy = speed * Math.sin(theta) * dt;
 		x+=dx;
 		y+=dy;
+		hitbox.setRect(x, y, width, height);
+
 		//System.out.println(speed + ", " + height);
 		
 	}

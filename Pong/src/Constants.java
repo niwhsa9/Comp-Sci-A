@@ -6,6 +6,13 @@ public class Constants {
 	public static final String WindowName = "Pong";
 	public static final int GraphicsPeriod = 10;
 	public static final int GamePeriod = 10;
+	
+	/** Power Up Constants **/
+	public static final double PowerUpSpawnRate = 10;
+	public static final double PowerUpTravelSpeed = 100;
+	public static final double PowerUpEjectRange = 0.8;
+
+
 
 	
 	/** Ball Constants **/
@@ -20,7 +27,7 @@ public class Constants {
 	/** Paddle Constants **/
 	public static final double PaddleVelocityNormal = 300.0;
 	public static final double PaddleVelocitySlow = 2.0;
-	public static final double PaddleVelocityFast = 10.0;
+	public static final double PaddleVelocityFast = 600.0;
 	public static final double PaddleWidth = 12;
 	public static final double PaddleHeight = 60;
 	public static final double PaddleStartX = 50;

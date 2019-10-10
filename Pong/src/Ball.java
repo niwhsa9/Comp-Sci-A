@@ -11,7 +11,8 @@ import javax.swing.JPanel;
 
 public class Ball extends GameObject{
 
-	//enum PowerUp
+	enum PowerUp {NORMAL, SMASH, BOOST};
+	public PowerUp state;
 	//double powerUpTimer 
 	public boolean collisionLock = false;
 	public double deflectionDir = 0; //set to 0 or math.pi
@@ -21,6 +22,7 @@ public class Ball extends GameObject{
 	Ball(double x, double y, double w, double h) {
 		super(x, y, w, h);
 		speed = Constants.BallVelocityNormal;
+		activeSpeed = Constants.BallVelocityNormal;
 		theta = Math.PI;
 		startX = x;
 		startY = y;
@@ -30,7 +32,7 @@ public class Ball extends GameObject{
 		this.x = startX;
 		this.y = startY;
 		this.theta = ((int)Math.round(Math.random()) == 1) ? 0 : Math.PI;
-		this.speed = Constants.BallVelocityNormal;
+		this.speed = activeSpeed;
 	}
 	
 	@Override

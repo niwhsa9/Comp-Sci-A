@@ -17,7 +17,7 @@ public class AIPaddle extends Paddle {
 		
 		
 		if(Math.abs(knownBallY-centerY()) <= trackError || Math.cos(knownBallTheta) * Math.cos(deflectionDir) > 0) speed = 0;
-		else speed = Constants.BallVelocityNormal;
+		else speed = this.activeSpeed;
 				
 		if(knownBallY > centerY()) theta = Math.PI/2.0;
 		else if(knownBallY <= centerY()) theta = 3.0*Math.PI/2.0;
