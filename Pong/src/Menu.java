@@ -66,7 +66,7 @@ public class Menu extends PongScene {
 	}
 	
 	public void update(double dt) {
-		System.out.println(gameLengthSlider.getValue());
+		//System.out.println(gameLengthSlider.getValue());
 		super.update(dt);
 		if(Input.keysPressed[49]) {
 			//System.out.println("here");
@@ -75,6 +75,8 @@ public class Menu extends PongScene {
 		if(Input.keysPressed[50]) selection = 2;
 		if(Input.keysPressed[51]) selection = 3;
 		if(Input.keysPressed[52]) selection = 4;
+		if(Input.keysPressed[53]) selection = 5;
+
 		
 		if(selection != -1) {
 			PongScene s = new PongScene();

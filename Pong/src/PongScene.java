@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.UnknownHostException;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
@@ -19,6 +20,7 @@ public class PongScene extends Scene{
 	PowerUpManager[] powerUpManagers;
 	
 	boolean demo = false;
+	boolean online = false;
 	boolean gameEnd = false;
 	public double timeLeft;
     BufferedImage background; 
@@ -75,6 +77,36 @@ public class PongScene extends Scene{
 			paddles[0].setDeflectionDir(0);
 			balls[0].theta = Math.PI/2 - 0.4;
 			demo = true;
+		} else if(selection == 4) {
+			gameObjects[0] = new UserPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
+			gameObjects[1] = new Ball(Constants.BallStartX, Constants.BallStartY, Constants.BallDiameter, Constants.BallDiameter);
+			gameObjects[2] = new UserPaddle(Constants.WindowDims.width-Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
+			
+			balls[0] = (Ball) gameObjects[1];
+			paddles[0] = (Paddle) gameObjects[0];
+			paddles[1] = (Paddle) gameObjects[2];
+			
+			((UserPaddle) paddles[1]).setKeys(Constants.KEY_DOWN, Constants.KEY_UP);
+			paddles[1].setDeflectionDir(Math.PI);
+			online = true;
+			PongClient.connect();
+			
+			//while(PongClient.update(me, myBall)) {}
+			//PongClient.update(null, null);
+			
+		} else if(selection == 5) {
+			gameObjects[2] = new UserPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
+			gameObjects[1] = new Ball(Constants.BallStartX, Constants.BallStartY, Constants.BallDiameter, Constants.BallDiameter);
+			gameObjects[0] = new UserPaddle(Constants.WindowDims.width-Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
+			
+			balls[0] = (Ball) gameObjects[1];
+			paddles[0] = (Paddle) gameObjects[0];
+			paddles[1] = (Paddle) gameObjects[2];
+			
+			((UserPaddle) paddles[0]).setKeys(Constants.KEY_DOWN, Constants.KEY_UP);
+			paddles[0].setDeflectionDir(Math.PI);
+			online = true;
+			PongClient.connect();
 		}
     }
     
@@ -172,6 +204,20 @@ public class PongScene extends Scene{
 		}
 		if(gameEnd && Input.keysPressed[Constants.KEY_SPACE]) {
 			isDone = true;
+		}
+		if(online) {
+			
+			PongPacket recieve = PongClient.update((UserPaddle)paddles[0], balls[0]);
+			//System.out.println("recieved");
+			//recieve.paddle.x = Constants.WindowDims.width-Constants.PaddleStartX-Constants.PaddleWidth;
+			paddles[1] = recieve.paddle;
+			//recieve.paddle.x = Constants.WindowDims.width-Constants.PaddleStartX-Constants.PaddleWidth;
+			balls[0] = recieve.ball;
+			
+			gameObjects[1] = balls[0];
+			gameObjects[2] = paddles[1];
+			//System.out.println(recieve.paddle.y);
+			//System.exit(0);
 		}
 
 	}

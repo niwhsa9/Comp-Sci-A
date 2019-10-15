@@ -5,11 +5,12 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.geom.Dimension2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 import java.util.Random;
 
 import javax.swing.JPanel;
 
-public class Ball extends GameObject{
+public class Ball extends GameObject {
 
 	enum PowerUp {NORMAL, SMASH, BOOST};
 	public PowerUp state;
