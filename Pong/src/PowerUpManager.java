@@ -2,9 +2,10 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.io.Serializable;
 import java.util.Random;
 
-public class PowerUpManager { //powerup state machine
+public class PowerUpManager implements Serializable{ //powerup state machine
 	Paddle paddle;
 	Ball ball;
 	GameObject powerUp;

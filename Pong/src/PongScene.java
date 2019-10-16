@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Random;
 
@@ -88,6 +89,10 @@ public class PongScene extends Scene{
 			
 			((UserPaddle) paddles[1]).setKeys(Constants.KEY_DOWN, Constants.KEY_UP);
 			paddles[1].setDeflectionDir(Math.PI);
+			
+			//powerUpManagers[0] = new PowerUpManager(paddles[0], balls[0], -5);
+			//powerUpManagers[1] = new PowerUpManager(paddles[1], balls[0], 5);
+			
 			online = true;
 			PongClient.connect();
 			
@@ -105,6 +110,10 @@ public class PongScene extends Scene{
 			
 			((UserPaddle) paddles[0]).setKeys(Constants.KEY_DOWN, Constants.KEY_UP);
 			paddles[0].setDeflectionDir(Math.PI);
+			
+			//powerUpManagers[0] = new PowerUpManager(paddles[0], balls[0], -5);
+			//powerUpManagers[1] = new PowerUpManager(paddles[1], balls[0], 5);
+			
 			online = true;
 			PongClient.connect();
 		}
@@ -157,6 +166,10 @@ public class PongScene extends Scene{
 
 	public synchronized void update(double dt) {
 		//Check collisions 
+		
+		try {
+		System.out.println( InetAddress.getLocalHost());
+		} catch(Exception e) {} 
 		if(!gameEnd) {
 		for(Ball ball : balls) {
 			for(Paddle paddle : paddles) {

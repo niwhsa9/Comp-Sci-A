@@ -54,9 +54,11 @@ public class Menu extends PongScene {
 		drawCenteredString(g2d, "by Ashwin Gupta", textFont, Constants.WindowDims.width/2, 160);
 		drawCenteredString(g2d, "Select 1 for single player", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2);
 		drawCenteredString(g2d, "Select 2 for local multiplayer", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50);
-		
-		drawCenteredString(g2d, "How to play: use w & s for player 1,",textFont, Constants.WindowDims.width/2, 500);
-		drawCenteredString(g2d, "use up & down for player 2",textFont, Constants.WindowDims.width/2, 520);
+		drawCenteredString(g2d, "Select 4 for online multiplayer (L)", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+50);
+		drawCenteredString(g2d, "Select 5 for online multiplayer (R)", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+100);
+
+		drawCenteredString(g2d, "How to play: use w & s for player 1,",textFont, Constants.WindowDims.width/2, 600);
+		drawCenteredString(g2d, "use up & down for player 2",textFont, Constants.WindowDims.width/2, 620);
 
 		//g2d.drawString("Select 3 for Gravity Ball", 50, 300);
 		//g2d.drawString("Select 4 for Phase Through Ball", 50, 400);
