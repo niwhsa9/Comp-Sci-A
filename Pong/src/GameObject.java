@@ -15,6 +15,7 @@ public class GameObject implements Serializable{
 	public double speed, theta, x, y, width, height, dx, dy;
 	Color color;
 	public double activeSpeed;
+	double sendTime;
 	
 	//enum PowerUp
 	//double powerUpTimer 

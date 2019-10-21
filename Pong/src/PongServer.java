@@ -28,8 +28,11 @@ public class PongServer {
 		try {
 			
 			 server = new ServerSocket(3141);
+			
+			 
 			 for(int i = 0; i < 2; i++) {
 				 clients[i] = server.accept();
+				 clients[i].setTcpNoDelay(true);
 				 System.out.println("picked up client");
 				 //inputStreams[i] = new DataInputStream(clients[i].getInputStream());
 				 //outputStreams[i] = new DataOutputStream(clients[i].getOutputStream());
@@ -50,11 +53,13 @@ public class PongServer {
 	         while(true) {
 	        	// System.out.println("here0");
 	        	 PongPacket client1 = (PongPacket) objInputStreams[0].readObject();
-	        	 //System.out.println("here1");
+	        	 //System.out.println(client1.ball.x);
 	        	 PongPacket client2 = (PongPacket) objInputStreams[1].readObject();
-	        	 System.out.println(client1.paddle.y + " _ " + client2.paddle.y);
-	        	 PongPacket packetFor1 = new PongPacket(client1.ball, client2.paddle);
-	        	 PongPacket packetFor2 = new PongPacket(client1.ball, client1.paddle);
+	        	 //System.out.println(client1.paddle.y + " _ " + client2.paddle.y);
+	        	 Ball b = client1.ball;
+	        	 if(client2.master) b = client2.ball;
+	        	 PongPacket packetFor1 = new PongPacket(b, client2.paddle);
+	        	 PongPacket packetFor2 = new PongPacket(b, client1.paddle);
 	 			 objOutputStreams[0].reset();
 	 			 objOutputStreams[1].reset();
 

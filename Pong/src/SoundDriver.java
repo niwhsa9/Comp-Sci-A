@@ -1,10 +1,6 @@
 import java.io.*;
-import java.net.URL;
-import javax.sound.sampled.*;
-import javax.swing.*;
+import javax.sound.sampled.*; 
 
-
-import com.sun.tools.javac.Main;
 
 public class SoundDriver {
 	static AudioInputStream[] audioInputStream;

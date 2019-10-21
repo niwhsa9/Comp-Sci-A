@@ -38,7 +38,7 @@ public class PowerUpManager implements Serializable{ //powerup state machine
 	
 		if(selectedPowerUp == 0) {
 			powerUpTime = 5.0;
-			powerUp.color = Color.RED;
+			powerUp.color = Color.GREEN;
 			
 		}
 		if(selectedPowerUp == 1) {

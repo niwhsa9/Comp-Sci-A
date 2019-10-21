@@ -29,6 +29,7 @@ public class PongScene extends Scene{
     int scoreL = 0;
     int scoreR = 0;
     int maxScore = 6;
+    public boolean master = false;
 	//BufferedImage background
 	//public void backgroundTimer;
     
@@ -81,26 +82,26 @@ public class PongScene extends Scene{
 		} else if(selection == 4) {
 			gameObjects[0] = new UserPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
 			gameObjects[1] = new Ball(Constants.BallStartX, Constants.BallStartY, Constants.BallDiameter, Constants.BallDiameter);
-			gameObjects[2] = new UserPaddle(Constants.WindowDims.width-Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
+			gameObjects[2] = new Paddle(Constants.WindowDims.width-Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
 			
 			balls[0] = (Ball) gameObjects[1];
 			paddles[0] = (Paddle) gameObjects[0];
 			paddles[1] = (Paddle) gameObjects[2];
 			
-			((UserPaddle) paddles[1]).setKeys(Constants.KEY_DOWN, Constants.KEY_UP);
+			//((UserPaddle) paddles[1]).setKeys(Constants.KEY_DOWN, Constants.KEY_UP);
+
 			paddles[1].setDeflectionDir(Math.PI);
-			
 			//powerUpManagers[0] = new PowerUpManager(paddles[0], balls[0], -5);
 			//powerUpManagers[1] = new PowerUpManager(paddles[1], balls[0], 5);
-			
+			master = true;
 			online = true;
-			PongClient.connect();
+			PongClient.connect(this);
 			
 			//while(PongClient.update(me, myBall)) {}
 			//PongClient.update(null, null);
 			
 		} else if(selection == 5) {
-			gameObjects[2] = new UserPaddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
+			gameObjects[2] = new Paddle(Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
 			gameObjects[1] = new Ball(Constants.BallStartX, Constants.BallStartY, Constants.BallDiameter, Constants.BallDiameter);
 			gameObjects[0] = new UserPaddle(Constants.WindowDims.width-Constants.PaddleStartX, Constants.PaddleStartY, Constants.PaddleWidth, Constants.PaddleHeight);
 			
@@ -109,13 +110,14 @@ public class PongScene extends Scene{
 			paddles[1] = (Paddle) gameObjects[2];
 			
 			((UserPaddle) paddles[0]).setKeys(Constants.KEY_DOWN, Constants.KEY_UP);
+
 			paddles[0].setDeflectionDir(Math.PI);
 			
 			//powerUpManagers[0] = new PowerUpManager(paddles[0], balls[0], -5);
 			//powerUpManagers[1] = new PowerUpManager(paddles[1], balls[0], 5);
 			
 			online = true;
-			PongClient.connect();
+			PongClient.connect(this);
 		}
     }
     
@@ -168,7 +170,7 @@ public class PongScene extends Scene{
 		//Check collisions 
 		
 		try {
-		System.out.println( InetAddress.getLocalHost());
+		//System.out.println( InetAddress.getLocalHost());
 		} catch(Exception e) {} 
 		if(!gameEnd) {
 		for(Ball ball : balls) {
@@ -220,15 +222,20 @@ public class PongScene extends Scene{
 		}
 		if(online) {
 			
-			PongPacket recieve = PongClient.update((UserPaddle)paddles[0], balls[0]);
-			//System.out.println("recieved");
-			//recieve.paddle.x = Constants.WindowDims.width-Constants.PaddleStartX-Constants.PaddleWidth;
-			paddles[1] = recieve.paddle;
-			//recieve.paddle.x = Constants.WindowDims.width-Constants.PaddleStartX-Constants.PaddleWidth;
-			balls[0] = recieve.ball;
+			PongPacket recieve = PongClient.getLast();
+			if(recieve != null) {
+				paddles[1] = recieve.paddle;
+				gameObjects[2] = paddles[1];
+
+			    //recieve.paddle.x = Constants.WindowDims.width-Constants.PaddleStartX-Constants.PaddleWidth;
+				if(master != true) balls[0] = recieve.ball;
 			
-			gameObjects[1] = balls[0];
-			gameObjects[2] = paddles[1];
+				if(master != true)  gameObjects[1] = balls[0];
+				//if(master != true) gameObjects[1].update(0.2);
+				//gameObjects[2].update(System.currentTimeMillis()/1000.0-recieve.sendTime);
+				//if(master) System.out.println("actual " + balls[0].x);
+				//System.out.println(System.currentTimeMillis()/1000.0-recieve.sendTime);
+			}
 			//System.out.println(recieve.paddle.y);
 			//System.exit(0);
 		}

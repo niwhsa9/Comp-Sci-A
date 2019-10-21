@@ -47,7 +47,8 @@ public class Ball extends GameObject {
 			SoundDriver.playHit();
 		}
 		//System.out.println(theta);
-			
+		if(speed > Constants.BallVelocityNormal) color = Color.red;
+		else color = Color.white;
 		super.update(dt);
 	}
 	
