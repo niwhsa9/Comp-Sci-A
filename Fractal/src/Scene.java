@@ -5,11 +5,20 @@ import javax.swing.JPanel;
 
 public class Scene extends JPanel{
 	boolean isDone = false; 
+	public int GamePeriod = 2000 /*20*/;
+
 	public Scene() {
 		
 	}
 	
 	public void update(double dt) {
+	}
+	
+	public void delay(int millis) {
+		long start = System.currentTimeMillis();
+		int q = 0;
+		while(System.currentTimeMillis() - start < millis) q++;
+		
 	}
 	
 	public void drawCenteredString(Graphics2D g2d, String s, Font f, int x, int y) {

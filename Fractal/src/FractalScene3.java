@@ -41,6 +41,8 @@ public class FractalScene3 extends Scene{
 		if(layers == 1) return;
 		g2d.setStroke(new BasicStroke(2));
 		g2d.setColor(Color.RED);
+		//g2d.setColor(new Color((int) (Math.random() * 255),(int) (Math.random() * 255),(int) (Math.random() * 255)));
+
 		//g2d.fill(r);
 		//g2d.setColor(Color.BLUE);
 		g2d.draw(line.getDrawable());
@@ -63,7 +65,8 @@ public class FractalScene3 extends Scene{
 	public void genTreeFractal2(Graphics2D g2d, Line line, int layers, double angle) {
 		if(layers == 1) return;
 		g2d.setStroke(new BasicStroke(2));
-		g2d.setColor(Color.RED);
+		//g2d.setColor(Color.RED);
+		g2d.setColor(new Color((int) (Math.random() * 255),(int) (Math.random() * 255),(int) (Math.random() * 255)));
 		//g2d.fill(r);
 		//g2d.setColor(Color.BLUE);
 		g2d.draw(line.getDrawable());

@@ -14,35 +14,38 @@ import java.util.Random;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
-public class FractalScene1 extends Scene{
-	int l = 300;
-	int layers = 2;
+public class FractalScene4 extends Scene{
+	//int l = WindowDims.;
+	int layers = 5;
 	
 	@Override
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, Constants.WindowDims.width, Constants.WindowDims.height);
-		genSquareFractal(g2d, new Rectangle( Constants.WindowDims.width/2-l/2,  Constants.WindowDims.height/2-l/2, l, l), layers);
+		//sierpinski(g2d, new Rectangle( Constants.WindowDims.width/3,  Constants.WindowDims.height/3, Constants.WindowDims.width/3, Constants.WindowDims.height/3), layers);
+		sierpinski(g2d, new Rectangle( 0,  0, Constants.WindowDims.width, Constants.WindowDims.height), layers);
+
 		//g2d.fillRect(0, 0, 500, 500);
 
 	}
-	
-	public void genSquareFractal(Graphics2D g2d, Rectangle r, int layers) {
+	//carpet, gasket, cantor set , koch star 
+	public void sierpinski(Graphics2D g2d, Rectangle r, int layers) {
 		if(layers == 1) return;
 		g2d.setStroke(new BasicStroke(2));
-		
+		Rectangle q = new Rectangle( r.width/3 + r.x, r.height/3 + r.y, r.width/3, r.height/3);
 		g2d.setColor(Color.RED);
-		g2d.fill(r);
+		g2d.fill(q);
 		g2d.setColor(Color.BLUE);
-		g2d.draw(r);
+		//g2d.draw(q);
 		layers--;
-		int w = r.width/2;
-		int h = r.height/2;
-		genSquareFractal(g2d, new Rectangle(r.x-w/2, r.y-h/2, w, h), layers);
-		genSquareFractal(g2d, new Rectangle(r.x+r.width-w/2, r.y-h/2, w, h), layers);
-		genSquareFractal(g2d, new Rectangle(r.x-w/2, r.y+r.height-h/2, w, h), layers);
-		genSquareFractal(g2d, new Rectangle(r.x+r.width-w/2, r.y+r.height-h/2, w, h), layers);
+		int w = r.width/3;
+		int h = r.height/3;
+		for(int i = 0; i < 9; i++) {
+			//System.out.println(i);
+			sierpinski(g2d, new Rectangle((i%3)*w + r.x, (i/3) * h + r.y, w, h), layers);
+		}
+		
 
 	}
 	
@@ -50,9 +53,8 @@ public class FractalScene1 extends Scene{
 	}
 
 	public synchronized void update(double dt) {
-		delay(2000);
-		layers++;
-		if(layers == 10) isDone = true;
+		//layers++;
+		//if(layers == 10) isDone = true;
 		
 	}
 }

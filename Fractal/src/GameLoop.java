@@ -30,10 +30,12 @@ public class GameLoop {
 				Input input = new Input();
 				window.addKeyListener(input);
 				
-				//sceneQueue.add(arg0)
+				sceneQueue.add(new Menu(sceneQueue));
+				/*
+				sceneQueue.add(new FractalScene4());
 				sceneQueue.add(new FractalScene3());
 				sceneQueue.add(new FractalScene2());
-				sceneQueue.add(new FractalScene1());
+				sceneQueue.add(new FractalScene1()); */
 				//sceneQueue.add(new Scene());
 
 				while(!sceneQueue.isEmpty()) {
