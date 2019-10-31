@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class FractalScene5 extends Scene{
 	//int l = WindowDims.;
-	int layers = 5;
+	int layers = 7;
 	
 	@Override
 	public void paintComponent(Graphics g) {
@@ -56,6 +56,21 @@ public class FractalScene5 extends Scene{
 		//g2d.setColor(Color.BLUE);
 		//g2d.draw(q);
 		layers--;
+		
+		Polygon t1 = triangle((xPoints[0]+xPoints[1])/2, (yPoints[0]+yPoints[1])/2, 
+				(xPoints[0] + xPoints[2])/2, yPoints[1], (xPoints[1] + xPoints[2])/2, (yPoints[1] + yPoints[2])/2);
+		
+		Polygon t2 = triangle(xPoints[0], yPoints[0], (xPoints[0] + xPoints[1])/2, (yPoints[0]+yPoints[1])/2,
+				(xPoints[0] + xPoints[2])/2, yPoints[0]);
+		
+		Polygon t3 = triangle((xPoints[0] + xPoints[2])/2, yPoints[0], (xPoints[1] + xPoints[2])/2, (yPoints[1] + yPoints[2])/2, xPoints[2], yPoints[2]);
+		
+		
+		sierpinski(g2d, t1.xpoints, t1.ypoints, layers);
+		sierpinski(g2d, t2.xpoints, t2.ypoints, layers);
+		sierpinski(g2d, t3.xpoints, t3.ypoints, layers);
+
+
 	//	sierpinski(g2d, ,layers)
 		/*
 		int w = r.width/3;
