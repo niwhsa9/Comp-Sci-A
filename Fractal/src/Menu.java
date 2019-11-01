@@ -56,6 +56,9 @@ public class Menu extends Scene {
 		drawCenteredString(g2d, "Select 2 for Perpendicular Lines", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50);
 		drawCenteredString(g2d, "Select 3 for Spinny Tree", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+50);
 		drawCenteredString(g2d, "Select 4 for Sierpinski's Carpet", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+100);
+		drawCenteredString(g2d, "Select 5 for Sierpinski's Gasket", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+150);
+		drawCenteredString(g2d, "Select 6 for Cantor's Set", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+200);
+		drawCenteredString(g2d, "Select 7 for Koch Star", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+250);
 
 	
 		
@@ -74,6 +77,9 @@ public class Menu extends Scene {
 		if(Input.keysPressed[51]) selection = 3;
 		if(Input.keysPressed[52]) selection = 4;
 		if(Input.keysPressed[53]) selection = 5;
+		if(Input.keysPressed[54]) selection = 6;
+		if(Input.keysPressed[55]) selection = 7;
+
 
 		
 		if(selection != -1) {
@@ -93,6 +99,12 @@ public class Menu extends Scene {
 					break;
 				case 5:
 					scene = new FractalScene5();
+					break;
+				case 6:
+					scene = new FractalScene6();
+					break;
+				case 7:
+					scene = new FractalScene7();
 					break;
 			}
 			//s.maxScore = gameLengthSlider.getValue();

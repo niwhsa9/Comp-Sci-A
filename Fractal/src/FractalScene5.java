@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 
 public class FractalScene5 extends Scene{
 	//int l = WindowDims.;
-	int layers = 7;
+	int layers = 2;
 	
 	@Override
 	public void paintComponent(Graphics g) {
@@ -87,8 +87,11 @@ public class FractalScene5 extends Scene{
 	}
 
 	public synchronized void update(double dt) {
-		//layers++;
-		//if(layers == 10) isDone = true;
+		super.update(dt);
+
+		delay(2000);
+		layers++;
+		if(layers == 8) isDone = true;
 		
 	}
 }

@@ -16,7 +16,7 @@ import javax.swing.JPanel;
 
 public class FractalScene2 extends Scene{
 	int l = 300;
-	int layers = 1;
+	int layers = 2;
 	int thickness = 3;
 	
 	@Override
@@ -53,6 +53,8 @@ public class FractalScene2 extends Scene{
 	}
 
 	public synchronized void update(double dt) {
+		super.update(dt);
+
 		delay(2000);
 
 		layers++;

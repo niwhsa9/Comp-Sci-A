@@ -13,6 +13,7 @@ public class Input implements KeyListener{
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		System.out.println("keypress");
 		keysPressed[e.getKeyCode()] = true;
 		//System.out.println(e.getKeyCode());
 	}

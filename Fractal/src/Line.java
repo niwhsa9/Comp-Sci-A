@@ -16,6 +16,19 @@ public class Line {
 		//new Point()
 	}
 	
+	public double getSX() {
+		return start.getElem(0, 0);
+	}
+	public double getSY() {
+		return start.getElem(1, 0);
+	}
+	public double getEX() {
+		return end.getElem(0, 0);
+	}
+	public double getEY() {
+		return end.getElem(1, 0);
+	}
+	
 	public Line2D getDrawable() {
 		return new Line2D.Double(new Point((int)start.getElem(0, 0), (int)start.getElem(1, 0)), new Point((int)end.getElem(0, 0), (int)end.getElem(1, 0)));
 	}
@@ -29,9 +42,19 @@ public class Line {
 		return (end.sub(start)).multiply(1.0/getMag());
 	}
 	
+	public Mat perpUnit() {
+		Mat unit = unit();
+		//return new Mat(3, 1, new double[] {unit.getElem(1, 0), -unit.getElem(0, 0),1});
+		return new Mat(3, 1, new double[] {-unit.getElem(1, 0), unit.getElem(0, 0),1});
+
+	}
+	
 	public static Mat getUnitVecInDir(double theta) {
 		return new Mat(3, 1, new double[] {Math.cos(theta), Math.sin(theta), 1});
 	}
+	
+
+	//public void 
 	
 	//public static Mat 
 }

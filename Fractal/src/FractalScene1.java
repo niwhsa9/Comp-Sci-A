@@ -50,6 +50,7 @@ public class FractalScene1 extends Scene{
 	}
 
 	public synchronized void update(double dt) {
+		super.update(dt);
 		delay(2000);
 		layers++;
 		if(layers == 10) isDone = true;

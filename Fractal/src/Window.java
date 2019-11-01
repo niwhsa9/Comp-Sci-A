@@ -9,6 +9,7 @@ public class Window extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 		setFocusable(true);
+
 		//Panel j = new Panel();
 		//add(j);
 	}
