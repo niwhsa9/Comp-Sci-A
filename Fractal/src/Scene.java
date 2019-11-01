@@ -13,7 +13,6 @@ public class Scene extends JPanel{
 	
 	public void update(double dt) {
 		//System.out.println("here");
-		if(Input.keysPressed[32]) isDone = true;
 	}
 	
 	public void delay(int millis) {

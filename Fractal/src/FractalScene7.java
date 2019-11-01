@@ -121,7 +121,7 @@ public class FractalScene7 extends Scene{
 	}
 
 	public synchronized void update(double dt) {
-		super.update(dt);
+		if(Input.keysPressed[32]) isDone = true;
 		//layers++;
 		delay(2000);
 		layers++;

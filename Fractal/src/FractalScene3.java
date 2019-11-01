@@ -91,7 +91,7 @@ public class FractalScene3 extends Scene{
 	}
 
 	public synchronized void update(double dt) {
-		super.update(dt);
+		if(Input.keysPressed[32]) isDone = true;
 
 		theta += 0.05;
 		//layers++;

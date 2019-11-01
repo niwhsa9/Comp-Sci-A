@@ -49,6 +49,7 @@ public class Menu extends Scene {
 
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
+		g2d.fillRect(0, 0, 1920, 1080);
 		g2d.setColor(Color.RED);
 		drawCenteredString(g2d, "Fractals", titleFont, Constants.WindowDims.width/2, 150);
 		drawCenteredString(g2d, "by Ashwin Gupta", textFont, Constants.WindowDims.width/2, 160);
@@ -69,8 +70,9 @@ public class Menu extends Scene {
 	public void update(double dt) {
 		//System.out.println(gameLengthSlider.getValue());
 		super.update(dt);
+		//System.out.println("updating menu");
 		if(Input.keysPressed[49]) {
-			//System.out.println("here");
+			//System.out.println(Input.keysPressed[0]);
 			selection = 1;
 		}
 		if(Input.keysPressed[50]) selection = 2;
