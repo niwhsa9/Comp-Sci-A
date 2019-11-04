@@ -81,6 +81,8 @@ public class Menu extends Scene {
 		if(Input.keysPressed[53]) selection = 5;
 		if(Input.keysPressed[54]) selection = 6;
 		if(Input.keysPressed[55]) selection = 7;
+		if(Input.keysPressed[56]) selection = 8;
+
 
 
 		
@@ -107,6 +109,9 @@ public class Menu extends Scene {
 					break;
 				case 7:
 					scene = new FractalScene7();
+					break;
+				case 8: 
+					scene = new Mandelbrot();
 					break;
 			}
 			//s.maxScore = gameLengthSlider.getValue();

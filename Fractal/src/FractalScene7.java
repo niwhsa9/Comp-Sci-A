@@ -34,9 +34,10 @@ public class FractalScene7 extends Scene{
 
 		//g2d.~(0, 0, 500, 500);
 		//kochSeg(g2d, new Line(600, 200, 200, 200), layers);
+		
 		kochSeg(g2d, new Line(500 + xShift, 0 + yShift, 0+ xShift, 0 + yShift), layers);
-		kochSeg(g2d, new Line(250+ xShift, 500 + yShift, 500+ xShift, 0 + yShift), layers);
-		kochSeg(g2d, new Line(0+ xShift, 0 + yShift,250+ xShift, 500 + yShift), layers);
+		kochSeg(g2d, new Line(250+ xShift, 433 + yShift, 500+ xShift, 0 + yShift), layers);
+		kochSeg(g2d, new Line(0+ xShift, 0 + yShift,250+ xShift, 433 + yShift), layers);
 
 
 	}
