@@ -60,6 +60,7 @@ public class Menu extends Scene {
 		drawCenteredString(g2d, "Select 5 for Sierpinski's Gasket", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+150);
 		drawCenteredString(g2d, "Select 6 for Cantor's Set", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+200);
 		drawCenteredString(g2d, "Select 7 for Koch Star", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+250);
+		drawCenteredString(g2d, "Select 8 for Mandelbrot", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+250+50);
 
 	
 		
@@ -113,6 +114,7 @@ public class Menu extends Scene {
 				case 8: 
 					scene = new Mandelbrot();
 					break;
+					
 			}
 			//s.maxScore = gameLengthSlider.getValue();
 			sceneQueue.add(scene);

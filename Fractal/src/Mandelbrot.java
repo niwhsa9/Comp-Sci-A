@@ -61,13 +61,15 @@ public class Mandelbrot extends Scene{
 
 	public synchronized void update(double dt) {
 		if(Input.keysPressed[32]) isDone = true;
-		if(Input.keysPressed[87]) yView-=0.02;
-		if(Input.keysPressed[83]) yView+=0.02;
-		if(Input.keysPressed[65]) xView-=0.02;
-		if(Input.keysPressed[68]) xView+=0.02;
+		if(Input.keysPressed[87]) yView-=0.02/zoom;
+		if(Input.keysPressed[83]) yView+=0.02/zoom;
+		if(Input.keysPressed[65]) xView-=0.02/zoom;
+		if(Input.keysPressed[68]) xView+=0.02/zoom;
 
 		if(Input.keysPressed[69]) zoom+=0.02;
 		if(Input.keysPressed[81]) zoom-=0.02;
+		if(Input.keysPressed[89]) zoom+=0.06;
+		if(Input.keysPressed[84]) zoom-=0.06;
 
 
 		//delay(2000);
