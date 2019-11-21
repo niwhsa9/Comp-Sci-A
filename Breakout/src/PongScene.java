@@ -64,7 +64,13 @@ public class PongScene extends Scene {
 			numBricks = 5;
 			bricks = Brick.generateBricks(9, 9, 2, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
-		} else {
+		}else if(selection == 3) {
+			numBricks = 5;
+			bricks = Brick.generateBricks(12, 12, 4, 2);
+			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
+		}
+		
+		else {
 			numBricks = 5;
 			bricks = Brick.generateBricks(12, 12, 5, 3);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
@@ -182,7 +188,7 @@ public class PongScene extends Scene {
 						//ball.y = brick.y + brick.height + 1;
 						
 						ball.speed = Constants.BallVelocityNormal;
-						SoundDriver.playHit();
+						SoundDriver.playBreak();
 					}
 				}
 			}

@@ -33,6 +33,15 @@ public class SoundDriver {
 		} catch(Exception e) {}
 	}
 	
+	public static void playBreak() {
+		try {
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/break.wav").getAbsoluteFile());
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.start();
+		} catch(Exception e) {}
+	}
+	
 	public static void playReset() {
 		try {
 		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/beep2.wav").getAbsoluteFile());
