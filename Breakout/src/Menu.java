@@ -59,8 +59,7 @@ public class Menu extends Scene {
 		drawCenteredString(g2d, "Select 4 for online multiplayer (L)", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+50);
 		drawCenteredString(g2d, "Select 5 for online multiplayer (R)", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+100);
 
-		drawCenteredString(g2d, "How to play: use w & s for player 1,",textFont, Constants.WindowDims.width/2, 600);
-		drawCenteredString(g2d, "use up & down for player 2",textFont, Constants.WindowDims.width/2, 620);
+		drawCenteredString(g2d, "How to play: use a & d to move paddle",textFont, Constants.WindowDims.width/2, 600);
 
 		//g2d.drawString("Select 3 for Gravity Ball", 50, 300);
 		//g2d.drawString("Select 4 for Phase Through Ball", 50, 400);
@@ -83,11 +82,11 @@ public class Menu extends Scene {
 
 		
 		if(selection != -1) {
-			PongScene s = new PongScene();
+			PongScene s = new PongScene(sceneQueue);
 			s.initGame(selection);
 			//s.maxScore = gameLengthSlider.getValue();
 			sceneQueue.add(s);
-			sceneQueue.add(new Menu(sceneQueue));
+			//sceneQueue.add(new Menu(sceneQueue));
 			isDone = true;
 		}
 	}

@@ -13,12 +13,12 @@ public class Constants {
 	public static final double PowerUpEjectRange = 0.8;
 
 	/** Brick Constants **/
-	public static final double BrickFallDy = 300;
+	public static final double BrickFallDy = 400;
 
 
 	
 	/** Ball Constants **/
-	public static final double BallVelocityNormal = 300.0;
+	public static final double BallVelocityNormal = 400.0;
 	public static final double BallVelocitySlow = 20.0;
 	public static final double BallVelocityFast = 200.0;
 	public static final double BallDiameter = 10;
@@ -27,9 +27,9 @@ public class Constants {
 
 
 	/** Paddle Constants **/
-	public static final double PaddleVelocityNormal = 300.0;
+	public static final double PaddleVelocityNormal = 400.0;
 	public static final double PaddleVelocitySlow = 2.0;
-	public static final double PaddleVelocityFast = 600.0;
+	public static final double PaddleVelocityFast = 500.0;
 	public static final double PaddleWidth = 60;
 	public static final double PaddleHeight = 12;
 	public static final double PaddleStartX = WindowDims.getWidth()/2 - PaddleWidth/2;
