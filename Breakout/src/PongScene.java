@@ -57,22 +57,22 @@ public class PongScene extends Scene {
 		powerUpManagers = new PowerUpManager[numOfPaddle];
 
 		if (selection == 1) {
-			numBricks = 5;
+			numBricks = 20;//32;
 			bricks = Brick.generateBricks(9, 9, 4, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		} else if(selection == 2) {
-			numBricks = 5;
+			numBricks = 2;//16;
 			bricks = Brick.generateBricks(9, 9, 2, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		}else if(selection == 3) {
-			numBricks = 5;
-			bricks = Brick.generateBricks(12, 12, 4, 2);
+			numBricks = 2;//5;
+			bricks = Brick.generateBricks(15, 15, 4, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		}
 		
 		else {
 			numBricks = 5;
-			bricks = Brick.generateBricks(12, 12, 5, 3);
+			bricks = Brick.generateBricks(20, 20, 1, 0);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		}
 		
@@ -88,7 +88,8 @@ public class PongScene extends Scene {
 		paddles[0] = (Paddle) gameObjects[0];
 		// paddles[1] = (Paddle) gameObjects[2];
 
-		powerUpManagers[0] = new PowerUpManager(paddles[0], balls[0], 5);
+		powerUpManagers[0] = new PowerUpManager(paddles[0], this, -10);
+		
 	}
 
 	public PongScene(Queue<Scene> sceneQueue) {

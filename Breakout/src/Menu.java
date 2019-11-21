@@ -52,12 +52,10 @@ public class Menu extends Scene {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
 		g2d.setColor(Color.RED);
-		drawCenteredString(g2d, "PONG", titleFont, Constants.WindowDims.width/2, 150);
+		drawCenteredString(g2d, "Breakout", titleFont, Constants.WindowDims.width/2, 150);
 		drawCenteredString(g2d, "by Ashwin Gupta", textFont, Constants.WindowDims.width/2, 160);
 		drawCenteredString(g2d, "Select 1 for single player", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2);
-		drawCenteredString(g2d, "Select 2 for local multiplayer", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50);
-		drawCenteredString(g2d, "Select 4 for online multiplayer (L)", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+50);
-		drawCenteredString(g2d, "Select 5 for online multiplayer (R)", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2+50+100);
+		
 
 		drawCenteredString(g2d, "How to play: use a & d to move paddle",textFont, Constants.WindowDims.width/2, 600);
 

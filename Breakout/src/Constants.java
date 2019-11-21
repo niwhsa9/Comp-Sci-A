@@ -29,7 +29,7 @@ public class Constants {
 	/** Paddle Constants **/
 	public static final double PaddleVelocityNormal = 400.0;
 	public static final double PaddleVelocitySlow = 2.0;
-	public static final double PaddleVelocityFast = 500.0;
+	public static final double PaddleVelocityFast = 600.0;
 	public static final double PaddleWidth = 60;
 	public static final double PaddleHeight = 12;
 	public static final double PaddleStartX = WindowDims.getWidth()/2 - PaddleWidth/2;
