@@ -110,6 +110,7 @@ public class PowerUpManager implements Serializable{ //powerup state machine
 				
 				b[i-1] = (Ball) q[i];
 				b[i-1].x = Math.random() * Constants.WindowDims.width;
+				b[i-1].theta = Math.random() * 2*Math.PI;
 			}
 			
 			for(int i = 2+numBalls; i < 2+numBalls + level.bricks.length; i++) q[i] = level.bricks[i-(2+numBalls)];

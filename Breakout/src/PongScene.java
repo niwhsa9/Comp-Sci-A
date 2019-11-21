@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 public class PongScene extends Scene {
 	int level = 0;
 	int numLevel = 4;
+	int aliveBalls = 1;
 	
 	int score = 0;
 	int bricksBroken = 0;
@@ -57,15 +58,15 @@ public class PongScene extends Scene {
 		powerUpManagers = new PowerUpManager[numOfPaddle];
 
 		if (selection == 1) {
-			numBricks = 20;//32;
+			numBricks = 32;//32;
 			bricks = Brick.generateBricks(9, 9, 4, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		} else if(selection == 2) {
-			numBricks = 2;//16;
+			numBricks = 16;//16;
 			bricks = Brick.generateBricks(9, 9, 2, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		}else if(selection == 3) {
-			numBricks = 2;//5;
+			numBricks = 5;//5;
 			bricks = Brick.generateBricks(15, 15, 4, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		}
@@ -167,7 +168,7 @@ public class PongScene extends Scene {
 					}
 				}
 
-				if (ball.centerY() > Constants.WindowDims.height) {
+				if (balls.length == 1 && ball.centerY() > Constants.WindowDims.height) {
 					ball.reset();
 					lives--;
 					paddles[0].setCenterX(Constants.WindowDims.width/2 );
