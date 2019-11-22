@@ -33,8 +33,8 @@ public class PowerUpManager implements Serializable{ //powerup state machine
 		//change ball/paddle property, record start time,activate internal animation sequence for time, check time in update
 		//System.out.println("here");
 		powerUp = new GameObject(Constants.WindowDims.width/2, Constants.WindowDims.height/2, 20, 20);
-		//selectedPowerUp = rand.nextInt(3);
-		selectedPowerUp = 2;
+		selectedPowerUp = rand.nextInt(3);
+		//selectedPowerUp = 2;
 		powerUp.setCenterX(0);
 		powerUp.setCenterY(0);
 		powerUp.speed = Constants.PowerUpTravelSpeed;

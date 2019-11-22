@@ -80,7 +80,7 @@ public class Menu extends Scene {
 
 		
 		if(selection != -1) {
-			PongScene s = new PongScene(sceneQueue);
+			PongScene s = new PongScene(sceneQueue, 0);
 			s.initGame(selection);
 			//s.maxScore = gameLengthSlider.getValue();
 			sceneQueue.add(s);

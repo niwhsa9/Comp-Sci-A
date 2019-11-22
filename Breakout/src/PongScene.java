@@ -35,6 +35,8 @@ public class PongScene extends Scene {
 
 
 	PowerUpManager[] powerUpManagers;
+	
+	Animation animationManager;
 
 	boolean demo = false;
 	boolean online = false;
@@ -58,16 +60,20 @@ public class PongScene extends Scene {
 		powerUpManagers = new PowerUpManager[numOfPaddle];
 
 		if (selection == 1) {
-			numBricks = 32;//32;
+			numBricks = 32;//32;//32;
 			bricks = Brick.generateBricks(9, 9, 4, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		} else if(selection == 2) {
-			numBricks = 16;//16;
+			numBricks = 3;//16;//16;
 			bricks = Brick.generateBricks(9, 9, 2, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		}else if(selection == 3) {
-			numBricks = 5;//5;
+			numBricks = 3;//5;
 			bricks = Brick.generateBricks(15, 15, 4, 1);
+			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
+		} else if(selection == 4) {
+			numBricks = 3;//5;
+			bricks = Brick.generateBricks(13, 6, 6, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		}
 		
@@ -90,11 +96,12 @@ public class PongScene extends Scene {
 		// paddles[1] = (Paddle) gameObjects[2];
 
 		powerUpManagers[0] = new PowerUpManager(paddles[0], this, -10);
-		
-	}
+		animationManager = new Animation();
+	}	
 
-	public PongScene(Queue<Scene> sceneQueue) {
+	public PongScene(Queue<Scene> sceneQueue, int score) {
 		this.sceneQueue = sceneQueue;
+		this.score = score;
 		try {
 			for(int i = 0; i < numLevel; i++) {
 				background[i] = ImageIO.read(new File("sprites\\" + (i+1) + ".jpg"));
@@ -121,6 +128,8 @@ public class PongScene extends Scene {
 			for (PowerUpManager pm : powerUpManagers)
 				if (pm != null)
 					pm.paintComponent(g);
+			animationManager.paintComponent(g);
+			
 		} else {
 			String winner = "Left side";
 			if (scoreR > scoreL)
@@ -133,8 +142,8 @@ public class PongScene extends Scene {
 
 		if (!demo) {
 			g2d.setColor(Color.WHITE);
-			g2d.drawString("" + scoreL, Constants.WindowDims.width / 2 - 70, 100);
-			g2d.drawString("" + scoreR, Constants.WindowDims.width / 2 + 70, 100);
+			drawCenteredString(g2d, "Score: " + score, scoreFont, Constants.WindowDims.width / 2, 50);
+			drawCenteredString(g2d, "Lives:" + lives, scoreFont, Constants.WindowDims.width-60, Constants.WindowDims.height-40);
 		}
 
 	}
@@ -159,7 +168,7 @@ public class PongScene extends Scene {
 
 						double base = paddle.deflectionDir;// Math.PI-Math.floor((ball.theta+0.01)/Math.PI);
 						double sign = (base > 0) ? 1 : -1;
-						ball.theta = Math.PI * 3.0 / 2.0 + Constants.PaddleHeight / paddle.height
+						ball.theta = Math.PI * 3.0 / 2.0 + Constants.PaddleWidth / paddle.width
 								* Constants.PaddleDeflectionConstant * (ball.centerX() - paddle.centerX());
 
 						
@@ -173,6 +182,7 @@ public class PongScene extends Scene {
 					lives--;
 					paddles[0].setCenterX(Constants.WindowDims.width/2 );
 					SoundDriver.playReset();
+					//if(ball != balls[0]) balls[0] = ball;
 					//ball.isAlive = false;
 				} else if(ball.isAlive && ball.centerY() > Constants.WindowDims.height) {
 					aliveBalls--;
@@ -183,12 +193,14 @@ public class PongScene extends Scene {
 			for (Ball ball : balls) {
 				for (Brick brick : bricks) {
 					if (brick.isAlive && ball.hitbox.intersects(brick.hitbox)) {
+						animationManager.explosion(brick.x, brick.y, brick.color);
+
 						brick.hit();
 						if(Math.abs(ball.topY() - brick.bottomY()) < 5 || Math.abs(ball.bottomY() - (brick.topY())) < 5)
 							ball.setDxDy(ball.dx, ball.dy * -1); //ball hit bottom or top
 						if(Math.abs(ball.rightX() - brick.leftX()) < 5 || Math.abs(ball.leftX() - brick.rightX()) < 5) 
 							ball.setDxDy(ball.dx * -1, ball.dy); //ball hit bottom or top
-						
+						score+=10;
 						bricksBroken++;
 						 //ball hit top
 						//ball.y = brick.y + brick.height + 1;
@@ -207,12 +219,13 @@ public class PongScene extends Scene {
 				if (pm != null)
 					pm.update(dt);
 			}
+			animationManager.update(dt);
 
 			if (lives == 0) {
 				sceneQueue.add(new Menu(sceneQueue));
 				gameEnd();
 			} else if(bricksBroken == numBricks) {
-				PongScene nextLevel = new PongScene(sceneQueue);
+				PongScene nextLevel = new PongScene(sceneQueue, score);
 				nextLevel.initGame(level+1);
 				sceneQueue.add(nextLevel);
 				isDone = true;
