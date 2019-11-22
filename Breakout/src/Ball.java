@@ -19,6 +19,7 @@ public class Ball extends GameObject {
 	public double deflectionDir = 0; //set to 0 or math.pi
 	public double startX;
 	public double startY;
+	public boolean isAlive = true;
 	
 	Ball(double x, double y, double w, double h) {
 		super(x, y, w, h);

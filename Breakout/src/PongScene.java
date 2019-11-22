@@ -168,11 +168,15 @@ public class PongScene extends Scene {
 					}
 				}
 
-				if (balls.length == 1 && ball.centerY() > Constants.WindowDims.height) {
+				if (aliveBalls == 1 && ball.isAlive && ball.centerY() > Constants.WindowDims.height) {
 					ball.reset();
 					lives--;
 					paddles[0].setCenterX(Constants.WindowDims.width/2 );
 					SoundDriver.playReset();
+					//ball.isAlive = false;
+				} else if(ball.isAlive && ball.centerY() > Constants.WindowDims.height) {
+					aliveBalls--;
+					ball.isAlive = false;
 				}
 			}
 

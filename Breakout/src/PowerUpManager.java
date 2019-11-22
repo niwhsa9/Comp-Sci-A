@@ -118,6 +118,7 @@ public class PowerUpManager implements Serializable{ //powerup state machine
 			b[0] = (Ball) level.gameObjects[1];
 			level.gameObjects = q;
 			level.balls = b;
+			level.aliveBalls = numBalls+1;
 			
 			hasPowerUp = false;
 			selectedPowerUp = -1;
