@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Queue;
 import java.util.Random;
 
@@ -36,7 +37,8 @@ public class PongScene extends Scene {
 
 	PowerUpManager[] powerUpManagers;
 	
-	Animation animationManager;
+	//Animation animationManager;
+	ArrayList<Animation> animationManager = new ArrayList<Animation>();
 
 	boolean demo = false;
 	boolean online = false;
@@ -96,7 +98,7 @@ public class PongScene extends Scene {
 		// paddles[1] = (Paddle) gameObjects[2];
 
 		powerUpManagers[0] = new PowerUpManager(paddles[0], this, -10);
-		animationManager = new Animation();
+		//animationManager = new Animation();
 	}	
 
 	public PongScene(Queue<Scene> sceneQueue, int score) {
@@ -128,7 +130,7 @@ public class PongScene extends Scene {
 			for (PowerUpManager pm : powerUpManagers)
 				if (pm != null)
 					pm.paintComponent(g);
-			animationManager.paintComponent(g);
+			for(int i = 0; i < animationManager.size(); i++) animationManager.get(i).paintComponent(g);
 			
 		} else {
 			String winner = "Left side";
@@ -193,12 +195,13 @@ public class PongScene extends Scene {
 			for (Ball ball : balls) {
 				for (Brick brick : bricks) {
 					if (brick.isAlive && ball.hitbox.intersects(brick.hitbox)) {
-						animationManager.explosion(brick.x, brick.y, brick.color);
-
+						Animation anim = new Animation();
+						anim.explosion(brick.x, brick.y, brick.color);
+						animationManager.add(anim);
 						brick.hit();
-						if(Math.abs(ball.topY() - brick.bottomY()) < 5 || Math.abs(ball.bottomY() - (brick.topY())) < 5)
+						if(Math.abs(ball.topY() - brick.bottomY()) < ball.height || Math.abs(ball.bottomY() - (brick.topY())) < ball.height)
 							ball.setDxDy(ball.dx, ball.dy * -1); //ball hit bottom or top
-						if(Math.abs(ball.rightX() - brick.leftX()) < 5 || Math.abs(ball.leftX() - brick.rightX()) < 5) 
+						if(Math.abs(ball.rightX() - brick.leftX()) < ball.width || Math.abs(ball.leftX() - brick.rightX()) < ball.width) 
 							ball.setDxDy(ball.dx * -1, ball.dy); //ball hit bottom or top
 						score+=10;
 						bricksBroken++;
@@ -219,7 +222,12 @@ public class PongScene extends Scene {
 				if (pm != null)
 					pm.update(dt);
 			}
-			animationManager.update(dt);
+			
+			for(int i = 0; i < animationManager.size(); i++) {
+				animationManager.get(i).update(dt);
+			}
+			
+			
 
 			if (lives == 0) {
 				sceneQueue.add(new Menu(sceneQueue));
