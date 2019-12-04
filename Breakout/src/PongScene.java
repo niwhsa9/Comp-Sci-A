@@ -55,6 +55,7 @@ public class PongScene extends Scene {
 	// public void backgroundTimer;
 
 	public void initGame(int selection) {
+		SoundDriver.playBackground();
 		// PongScene game = new PongScene(int selection);
 		level = selection;
 		balls = new Ball[numOfBall];
@@ -62,7 +63,7 @@ public class PongScene extends Scene {
 		powerUpManagers = new PowerUpManager[numOfPaddle];
 
 		if (selection == 1) {
-			numBricks = 32;//32;//32;
+			numBricks = 15;//32;//32;
 			bricks = Brick.generateBricks(9, 9, 4, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		} else if(selection == 2) {
@@ -199,10 +200,34 @@ public class PongScene extends Scene {
 						anim.explosion(brick.x, brick.y, brick.color);
 						animationManager.add(anim);
 						brick.hit();
+						/*
 						if(Math.abs(ball.topY() - brick.bottomY()) < ball.height || Math.abs(ball.bottomY() - (brick.topY())) < ball.height)
 							ball.setDxDy(ball.dx, ball.dy * -1); //ball hit bottom or top
 						if(Math.abs(ball.rightX() - brick.leftX()) < ball.width || Math.abs(ball.leftX() - brick.rightX()) < ball.width) 
 							ball.setDxDy(ball.dx * -1, ball.dy); //ball hit bottom or top
+						 */
+						
+						GameObject prevBall = new GameObject(ball.prevX, ball.prevY, ball.width, ball.height);
+						double dy = ball.dy , dx = ball.dx;
+						if(ball.topY() < brick.bottomY() && prevBall.topY() > brick.bottomY()) { //intersected brick bot
+							ball.setTopY(brick.bottomY() + 1);
+							dy = ball.dy * -1;
+						}
+						if(ball.bottomY() > brick.topY() && prevBall.bottomY() < brick.topY()) { //intersected brick top
+							ball.setTopY(brick.topY() - 1);
+							dy = ball.dy * -1;
+						}
+						if(ball.rightX() > brick.leftX() && prevBall.rightX() < brick.leftX()) { //intersected brick left
+							ball.setRightX(brick.leftX()-1);
+							dx = ball.dx * -1;
+						}
+						if(ball.leftX() < brick.rightX() && prevBall.leftX() > brick.rightX()) { //intersected brick right
+							ball.setLeftX(brick.rightX()+1);
+							dx = ball.dx * -1;
+						}
+						
+						ball.setDxDy(dx, dy);
+						
 						score+=10;
 						bricksBroken++;
 						 //ball hit top

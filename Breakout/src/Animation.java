@@ -29,7 +29,7 @@ public class Animation {
 				//particles[i].theta += 0.02;
 				particles[i].update(dt);
 			}
-			if(time-startTime >= 2.0) {
+			if(time-startTime >= 1.5) {
 				animation = -1;
 			}
 

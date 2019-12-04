@@ -20,6 +20,7 @@ public class Ball extends GameObject {
 	public double startX;
 	public double startY;
 	public boolean isAlive = true;
+	double prevX = 0 , prevY = 0;
 	
 	Ball(double x, double y, double w, double h) {
 		super(x, y, w, h);
@@ -39,6 +40,8 @@ public class Ball extends GameObject {
 	
 	@Override
 	public void update(double dt) {
+		prevX = this.x;
+		prevY = this.y;
 		if(topY() <= 0) { 
 			theta*=-1;
 			SoundDriver.playHit();
