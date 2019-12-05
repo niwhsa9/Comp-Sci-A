@@ -79,9 +79,10 @@ public class Menu extends Scene {
 		if(Input.keysPressed[53]) selection = 5;
 
 		
-		if(selection != -1) {
+		if(selection != -1 && !isDone) {
 			PongScene s = new PongScene(sceneQueue, 0);
 			s.initGame(selection);
+			System.out.println(selection+"bleh");
 			//s.maxScore = gameLengthSlider.getValue();
 			sceneQueue.add(s);
 			//sceneQueue.add(new Menu(sceneQueue));

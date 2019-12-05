@@ -71,11 +71,12 @@ public class SoundDriver {
 	
 	public static void playBackground() {
 		try {
+			/*
 			AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/background.wav").getAbsoluteFile());
 	        Clip clip = AudioSystem.getClip();
 	        clip.open(audioInputStream);
 	        
-	        clip.start();
+	        clip.start();*/
 		} catch(Exception e) {}
 	}
 }

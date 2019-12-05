@@ -56,14 +56,14 @@ public class PongScene extends Scene {
 
 	public void initGame(int selection) {
 		SoundDriver.playBackground();
-		// PongScene game = new PongScene(int selection);
+		//PongScene game = new PongScene(int selection);
 		level = selection;
 		balls = new Ball[numOfBall];
 		paddles = new Paddle[numOfPaddle];
 		powerUpManagers = new PowerUpManager[numOfPaddle];
-
+		//System.out.println(selection);
 		if (selection == 1) {
-			numBricks = 15;//32;//32;
+			numBricks = 2;//32;//32;
 			bricks = Brick.generateBricks(9, 9, 4, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		} else if(selection == 2) {
@@ -196,10 +196,7 @@ public class PongScene extends Scene {
 			for (Ball ball : balls) {
 				for (Brick brick : bricks) {
 					if (brick.isAlive && ball.hitbox.intersects(brick.hitbox)) {
-						Animation anim = new Animation();
-						anim.explosion(brick.x, brick.y, brick.color);
-						animationManager.add(anim);
-						brick.hit();
+						
 						/*
 						if(Math.abs(ball.topY() - brick.bottomY()) < ball.height || Math.abs(ball.bottomY() - (brick.topY())) < ball.height)
 							ball.setDxDy(ball.dx, ball.dy * -1); //ball hit bottom or top
@@ -228,13 +225,24 @@ public class PongScene extends Scene {
 						
 						ball.setDxDy(dx, dy);
 						
-						score+=10;
-						bricksBroken++;
+						brick.hit();
+						if(brick.isAlive == false) {
+							Animation anim = new Animation();
+							anim.explosion(brick.x, brick.y, brick.liveColor);
+							animationManager.add(anim);
+							SoundDriver.playBreak();
+
+							
+							score+=10;
+							bricksBroken++;
+						} else {
+							score+=5;
+							SoundDriver.playHit();
+						}
 						 //ball hit top
 						//ball.y = brick.y + brick.height + 1;
 						
 						ball.speed = Constants.BallVelocityNormal;
-						SoundDriver.playBreak();
 					}
 				}
 			}
@@ -260,6 +268,7 @@ public class PongScene extends Scene {
 			} else if(bricksBroken == numBricks) {
 				PongScene nextLevel = new PongScene(sceneQueue, score);
 				nextLevel.initGame(level+1);
+				System.out.println("broke: " +bricksBroken);
 				sceneQueue.add(nextLevel);
 				isDone = true;
 			}

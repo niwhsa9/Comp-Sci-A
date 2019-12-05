@@ -1,12 +1,14 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.util.Random;
 
 public class Animation {
 	GameObject[] particles; 
 	double startTime;
 	double animation = -1;
 	double time = 0;
+	Random rn = new Random();
 	
 	
 	public void explosion(double x, double y, Color color) {
@@ -17,8 +19,12 @@ public class Animation {
 			particles[i] = new GameObject(x, y, 6, 6);
 			particles[i].color = color; //rand color
 			particles[i].speed = 400;
-			particles[i].theta = Math.random() * Math.PI*2;
+			particles[i].theta = Math.random() * Math.PI*2; 
 		}
+	}
+	
+	public void fire(double x, double y, Ball b) {
+		//rn.nextGaussian()
 	}
 	
 	public void update(double dt) {
