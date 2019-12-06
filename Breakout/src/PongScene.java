@@ -56,6 +56,9 @@ public class PongScene extends Scene {
 
 	public void initGame(int selection) {
 		SoundDriver.playBackground();
+		
+		
+		
 		//PongScene game = new PongScene(int selection);
 		level = selection;
 		balls = new Ball[numOfBall];
@@ -63,15 +66,15 @@ public class PongScene extends Scene {
 		powerUpManagers = new PowerUpManager[numOfPaddle];
 		//System.out.println(selection);
 		if (selection == 1) {
-			numBricks = 2;//32;//32;
+			numBricks = 32;//32;//32;
 			bricks = Brick.generateBricks(9, 9, 4, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		} else if(selection == 2) {
-			numBricks = 3;//16;//16;
+			numBricks = 16;//16;//16;
 			bricks = Brick.generateBricks(9, 9, 2, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		}else if(selection == 3) {
-			numBricks = 3;//5;
+			numBricks = 5;//5;
 			bricks = Brick.generateBricks(15, 15, 4, 1);
 			gameObjects = new GameObject[numOfPaddle + numOfBall + bricks.length]; 	
 		} else if(selection == 4) {
@@ -100,6 +103,9 @@ public class PongScene extends Scene {
 
 		powerUpManagers[0] = new PowerUpManager(paddles[0], this, -10);
 		//animationManager = new Animation();
+		Animation anim = new Animation();
+		anim.fire(balls[0]);
+		animationManager.add(anim);
 	}	
 
 	public PongScene(Queue<Scene> sceneQueue, int score) {
@@ -134,10 +140,8 @@ public class PongScene extends Scene {
 			for(int i = 0; i < animationManager.size(); i++) animationManager.get(i).paintComponent(g);
 			
 		} else {
-			String winner = "Left side";
-			if (scoreR > scoreL)
-				winner = "Right side";
-			drawCenteredString(g2d, winner + " wins!", scoreFont, Constants.WindowDims.width / 2,
+			
+			drawCenteredString(g2d, "Game Over!", scoreFont, Constants.WindowDims.width / 2,
 					Constants.WindowDims.height / 2);
 			drawCenteredString(g2d, "Press Space to Restart", scoreFont, Constants.WindowDims.width / 2,
 					Constants.WindowDims.height / 2 + 50);
