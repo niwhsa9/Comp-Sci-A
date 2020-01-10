@@ -109,6 +109,12 @@ public class GameObject implements Serializable{
 		
 	}
 	
+	public boolean isVisible() {
+		if( (leftX() <= Constants.WindowDims.width && rightX() >= 0) 
+				&& (bottomY() >= 0  && topY() <= Constants.WindowDims.height)) return true;
+		return false;
+	}
+	
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(color);

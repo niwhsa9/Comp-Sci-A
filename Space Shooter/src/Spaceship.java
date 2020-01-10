@@ -3,7 +3,7 @@ import java.awt.Polygon;
 public class Spaceship extends GameObject {
 	
 	boolean risingEdgeThrust = false;
-	
+	TrapezoidMotionProfile tmp = new TrapezoidMotionProfile(0, 0, 0, 0);
 
 	Spaceship(double x, double y, double w, double h) {
 		super(x, y, w, h, true);
@@ -27,14 +27,17 @@ public class Spaceship extends GameObject {
 	public void update(double dt) {
 		
 		
-		if(Input.keysPressed[Constants.KEY_THRUST] && risingEdgeThrust == false) speed = 1000;
-		else speed = 0;
+		if(Input.keysPressed[Constants.KEY_THRUST] && risingEdgeThrust == false && tmp.getPercent()>0.9) {
+			tmp = new TrapezoidMotionProfile(300, 500, 1200, 500);
+		}
+		//else speed = 0;
 		
 		if(Input.keysPressed[65]) dphi = Constants.SHIP_ROTATE_VELO;
 		else if (Input.keysPressed[68]) dphi = -Constants.SHIP_ROTATE_VELO;
 		else dphi = 0;
 		
 		theta = phi + Math.PI/2;
+		speed = tmp.update(dt);
 
 		
 		risingEdgeThrust = Input.keysPressed[Constants.KEY_THRUST];

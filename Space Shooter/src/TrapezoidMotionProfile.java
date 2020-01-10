@@ -11,6 +11,8 @@ public class TrapezoidMotionProfile {
 	double velo = 0;
 	double accel = 0;
 	double distance = 0;
+	boolean isDone = false;
+	double prevDist;
 	
 	TrapezoidMotionProfile(double posSetpoint, double maxVelo, double maxAccel, double maxDecel) {
 		this.posSetpoint = posSetpoint;
@@ -18,6 +20,12 @@ public class TrapezoidMotionProfile {
 		this.maxAccel = maxAccel;
 		this.maxDecel = maxDecel*-1;
 		accel = maxAccel;
+		if(posSetpoint == 0 ) isDone = true;
+	}
+	
+	public double getPercent() {
+		if(isDone) return 1.0;
+		return distance/posSetpoint;
 	}
 	
 	public double update(double dt) {
@@ -28,15 +36,20 @@ public class TrapezoidMotionProfile {
 		//System.out.println((velo * velo/(2*maxDecel)));
 		if( (-velo * velo/(2*maxDecel)) >= posSetpoint - distance) {
 			accel = maxDecel;
-			System.out.println("here");
+			//System.out.println("here");
 		}
 		//check if I've reached v-max
 		else if(velo >= maxVelo) accel = 0;
 		
-		velo += accel * dt;
+		if(Math.abs(distance - posSetpoint) <= 1.0 || distance < prevDist) {
+			velo = 0;
+			accel = 0;
+			isDone = true;
+		} else velo += accel * dt;
 		
 		prevVelo = velo;
-		System.out.println("dist: " + distance + " velo: " + velo + " accel: " + accel);
+		prevDist = distance;
+		//System.out.println("dist: " + distance + " velo: " + velo + " accel: " + accel);
 		return velo;
 	}
 }
