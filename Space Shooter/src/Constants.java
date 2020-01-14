@@ -10,6 +10,11 @@ public class Constants {
 	/** Spaceship Constants **/
 	public static final double THRUST_ACCEL = 1000;
 	public static final double SHIP_ROTATE_VELO = Math.PI/1;
+	public static final double BULLET_SPEED = 500;
+	public static final double BULLET_WIDTH = 5;
+	public static final double BULLET_HEIGHT = 10;
+
+
 
 
 	/** Brick Constants **/
@@ -34,7 +39,7 @@ public class Constants {
 	public static final int KEY_SPACE = 32;
 	
 	public static final int KEY_THRUST = KEY_W;
-
+	public static final int KEY_SHOOT = KEY_SPACE;
 
 
 

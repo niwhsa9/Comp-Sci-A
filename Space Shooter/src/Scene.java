@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -22,7 +23,7 @@ public class Scene extends JPanel{
 	}
 	
 
-	public void drawPolygon(Graphics2D g2d, Mat[] polyData, Mat transform) {
+	public void drawPolygon(Graphics2D g2d, Mat[] polyData, Mat transform, Color c) {
 		Polygon p = new Polygon();
 		for(int i = 0; i < polyData.length; i++) {
 			//polyData[i] = Mat.dialationMat3x3(0.5).multiply(polyData[i]);
@@ -34,10 +35,11 @@ public class Scene extends JPanel{
 
 			p.addPoint((int)q.getElem(0, 0),(int)q.getElem(1, 0));
 		}
+		g2d.setColor(c);
 		g2d.drawPolygon(p);
 	}
 	
-	public void fillPolygon(Graphics2D g2d, Mat[] polyData, Mat transform) {
+	public void fillPolygon(Graphics2D g2d, Mat[] polyData, Mat transform, Color c) {
 		Polygon p = new Polygon();
 		for(int i = 0; i < polyData.length; i++) {
 			//polyData[i] = Mat.dialationMat3x3(0.5).multiply(polyData[i]);
@@ -49,12 +51,13 @@ public class Scene extends JPanel{
 
 			p.addPoint((int)q.getElem(0, 0),(int)q.getElem(1, 0));
 		}
+		g2d.setColor(c);
 		g2d.fillPolygon(p);
 	}
-	public void drawMesh(Graphics2D g2d, Mat[][] mesh, Mat transform) {
-		for(int i = 0; i < mesh.length; i++) drawPolygon(g2d, mesh[i], transform);
+	public void drawMesh(Graphics2D g2d, Mat[][] mesh, Mat transform, Color[] c) {
+		for(int i = 0; i < mesh.length; i++) drawPolygon(g2d, mesh[i], transform, c[i]);
 	}
-	public void fillMesh(Graphics2D g2d, Mat[][] mesh, Mat transform) {
-		for(int i = 0; i < mesh.length; i++) fillPolygon(g2d, mesh[i], transform);
+	public void fillMesh(Graphics2D g2d, Mat[][] mesh, Mat transform, Color[] c) {
+		for(int i = 0; i < mesh.length; i++) fillPolygon(g2d, mesh[i], transform, c[i]);
 	}
 }

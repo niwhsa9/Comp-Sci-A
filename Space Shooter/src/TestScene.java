@@ -19,7 +19,7 @@ public class TestScene extends Scene {
 			double width = 1.5 * size; 
 			double height = 1.5 * size;
 			double theta = Math.PI/2;
-			double speed = 20 * size;
+			double speed = 30 * size;
 			GameObject star = new GameObject(x, y, width, height);
 			star.theta = theta;
 			star.speed = speed;
@@ -32,7 +32,7 @@ public class TestScene extends Scene {
 		super();
 		
 		ship = new Spaceship(400, 400, 10, 10);
-		makeStars(200);
+		makeStars(300);
 	}
 	
 	
@@ -47,7 +47,12 @@ public class TestScene extends Scene {
 		for(int i = 0; i < stars.size(); i++) g2d.fill(stars.get(i).hitbox);
 		
 		g2d.setColor(Color.RED);
-		fillMesh(g2d, ship.mesh, ship.model);
+		fillMesh(g2d, ship.mesh, ship.model, ship.layers);
+		
+		for(int i = 0; i < ship.bullets.size(); i++) {
+			ship.bullets.get(i).paintComponent(g);
+		}
+		
 	}
 	
 	public void update(double dt) {
@@ -60,6 +65,9 @@ public class TestScene extends Scene {
 				stars.get(i).setBottomY(0);
 			}
 			else stars.get(i).update(dt);
+		}
+		for(int i = 0; i < ship.bullets.size(); i++) {
+			ship.bullets.get(i).update(dt);
 		}
 		
 		//tmp.update(dt);

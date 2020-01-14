@@ -2,9 +2,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Polygon;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.awt.geom.Dimension2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.io.Serializable;
 import java.util.Random;
@@ -23,6 +26,9 @@ public class GameObject implements Serializable{
 	Mat[][] mesh;
 	boolean meshEnable = false;
 	Mat model = new Mat(3, 3);//.rotationMat3x3(temp/205.0).lmul(Mat.translationMat3x3(temp, 500));;
+	Color[] layers;
+	Point2D cor;
+	
 	
 	//enum PowerUp
 	//double powerUpTimer 
@@ -34,6 +40,28 @@ public class GameObject implements Serializable{
 		this.height = h;
 		hitbox = new Rectangle2D.Double(x, y, width, height);
 		color = new Color(255, 255, 255);
+	}
+	
+	GameObject(GameObject g) {
+		this.hitbox = g.hitbox;
+		this.activeSpeed = g.activeSpeed;
+		this.speed = g.speed;
+		this.theta = g.theta;
+		phi = g.phi;
+		dphi = g.dphi;
+		x = g.x;
+		y = g.y;
+		width = g.width;
+		height = g.height;
+		dx = g.dx;
+		dy = g.dy;
+		dphi = g.phi;
+		dialation = g.dialation;
+		color = g.color;
+		activeSpeed = g.activeSpeed;
+		sendTime = g.sendTime;
+		
+		
 	}
 	
 	GameObject(double x, double y, double w, double h, boolean meshEnable) {
@@ -118,8 +146,19 @@ public class GameObject implements Serializable{
 	public void paintComponent(Graphics g) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(color);
+
 		
-		if(meshEnable == false) g2d.fill(hitbox);
+		
+		if(phi == 0) g2d.fill(hitbox);
+		else {
+			AffineTransform transform = new AffineTransform();
+			transform.rotate(phi, centerX(), centerY());
+			AffineTransform original = g2d.getTransform();
+			g2d.transform(transform);
+			g2d.fill(hitbox);
+			g2d.setTransform(original);
+		}
+		
 		//else for(int i = 0; i < mesh.length; i++) g2d.drawPolygon(mesh[i]);
 	
 		
