@@ -1,5 +1,8 @@
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Polygon;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
@@ -13,7 +16,10 @@ public class Spaceship extends GameObject {
 	ArrayList<GameObject> particles = new ArrayList<GameObject>();
 	Mat thrustDir;
 	ArrayList<GameObject> bullets = new ArrayList<GameObject>();
-
+	Animation fire;
+	
+	int absX;
+	int absY;
 
 
 	Spaceship(double x, double y, double w, double h) {
@@ -32,6 +38,8 @@ public class Spaceship extends GameObject {
 		loadMesh();
 		dialation = 10.0;
 		
+		fire = new Animation();
+		fire.fire(this);
 		
 		//phi = Math.PI/2;
 		//dphi = Math.PI/5;
@@ -39,8 +47,24 @@ public class Spaceship extends GameObject {
 		
 	}
 	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		fire.paintComponent(g);
+		Graphics2D g2d = (Graphics2D) g;
+		g2d.setColor(Color.RED);
+		Scene.fillMesh(g2d, mesh, model, layers);
+	
+		g2d.setColor(Color.BLUE);
+
+		//g2d.fill(getPolygon(0));
+	//	g2d.fill(hitbox);
+
+	}
+	
 	public void update(double dt) {
+		fire.update(dt);
 		
+		//Mat lCorner = new Mat(3, 1, new double[] {x})
 		
 		if(Input.keysPressed[Constants.KEY_THRUST] && risingEdgeThrust == false && tmp.getPercent()>0.9) {
 			tmp = new TrapezoidMotionProfile(300, 500, 1200, 500);
@@ -88,7 +112,22 @@ public class Spaceship extends GameObject {
 		
 		theta = phi + Math.PI/2;
 		speed = tmp.update(dt);
-
+		
+		Polygon p = getPolygon(0);
+		if(p.intersects(new Rectangle(0, 0, Constants.WindowDims.width, 1))) {
+			y = 80;
+			tmp.isDone = true;
+		} else if(p.intersects(new Rectangle(0, 0, 1, Constants.WindowDims.height))) {
+			x = 80;
+			tmp.isDone = true;
+		} else if(p.intersects(new Rectangle(0, Constants.WindowDims.height , Constants.WindowDims.width, 1))) {
+			y = Constants.WindowDims.height-80;
+			tmp.isDone = true;
+		} else if(p.intersects(new Rectangle(Constants.WindowDims.width, 0, 1, Constants.WindowDims.height))) {
+			x = Constants.WindowDims.width-80;
+			tmp.isDone = true;
+		}
+		
 		
 		risingEdgeThrust = Input.keysPressed[Constants.KEY_THRUST];
 		risingEdgeShoot = Input.keysPressed[Constants.KEY_SHOOT];

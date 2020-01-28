@@ -168,12 +168,31 @@ public class GameObject implements Serializable{
 		theta = Math.atan2(dy, dx);
 	}
 	
+	public Mat getVeloVector() {
+		return new Mat(3, 1, new double[] {dx, dy, 1});
+	}
+	
+	public Polygon getPolygon(int l) {
+		Polygon p = new Polygon();
+		for(int i = 0; i < mesh[l].length; i++) {
+		//polyData[i] = Mat.dialationMat3x3(0.5).multiply(polyData[i]);
+	    //polyData[i] = polyData[i].lmul(Mat.translationMat3x3(10, 10));
+		Mat q = new Mat(3, 1, new double[] {mesh[l][i].getElem(0, 0),mesh[l][i].getElem(1, 0), mesh[l][i].getElem(2, 0)});
+
+		q = q.lmul(model);
+		//System.out.println(q);
+
+		p.addPoint((int)q.getElem(0, 0),(int)q.getElem(1, 0));
+		}
+		return p;
+	}
+	
 	public void update(double dt) {
-		dx = speed * Math.cos(theta) * dt;
-		dy = speed * Math.sin(theta) * dt;
+		dx = speed * Math.cos(theta) ;
+		dy = speed * Math.sin(theta) ;
 		phi += dphi * dt;
-		x+=dx;
-		y+=dy;
+		x+=dx * dt;
+		y+=dy * dt;
 		hitbox.setRect(x, y, width, height);
 		
 		model = Mat.dialationMat3x3(dialation).lmul(Mat.rotationMat3x3(phi).lmul(Mat.translationMat3x3(x, y)));

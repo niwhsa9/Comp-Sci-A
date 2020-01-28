@@ -81,7 +81,7 @@ public class Menu extends Scene {
 		
 		if(selection != -1 && !isDone) {
 			
-			TestScene s = new TestScene();
+			TestScene s = new TestScene(1, sceneQueue);
 			sceneQueue.add(s);
 			sceneQueue.add(new Menu(sceneQueue));
 			isDone = true; 

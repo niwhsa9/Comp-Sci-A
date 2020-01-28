@@ -28,6 +28,7 @@ public class TrapezoidMotionProfile {
 		return distance/posSetpoint;
 	}
 	
+	
 	public double update(double dt) {
 		time+=dt;
 		distance+= prevVelo * dt;
@@ -50,6 +51,7 @@ public class TrapezoidMotionProfile {
 		prevVelo = velo;
 		prevDist = distance;
 		//System.out.println("dist: " + distance + " velo: " + velo + " accel: " + accel);
+		if(isDone) velo = 0;
 		return velo;
 	}
 }

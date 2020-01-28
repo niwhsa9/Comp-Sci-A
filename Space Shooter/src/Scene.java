@@ -23,7 +23,7 @@ public class Scene extends JPanel{
 	}
 	
 
-	public void drawPolygon(Graphics2D g2d, Mat[] polyData, Mat transform, Color c) {
+	public static void drawPolygon(Graphics2D g2d, Mat[] polyData, Mat transform, Color c) {
 		Polygon p = new Polygon();
 		for(int i = 0; i < polyData.length; i++) {
 			//polyData[i] = Mat.dialationMat3x3(0.5).multiply(polyData[i]);
@@ -39,7 +39,7 @@ public class Scene extends JPanel{
 		g2d.drawPolygon(p);
 	}
 	
-	public void fillPolygon(Graphics2D g2d, Mat[] polyData, Mat transform, Color c) {
+	public static void fillPolygon(Graphics2D g2d, Mat[] polyData, Mat transform, Color c) {
 		Polygon p = new Polygon();
 		for(int i = 0; i < polyData.length; i++) {
 			//polyData[i] = Mat.dialationMat3x3(0.5).multiply(polyData[i]);
@@ -54,10 +54,10 @@ public class Scene extends JPanel{
 		g2d.setColor(c);
 		g2d.fillPolygon(p);
 	}
-	public void drawMesh(Graphics2D g2d, Mat[][] mesh, Mat transform, Color[] c) {
+	public static void drawMesh(Graphics2D g2d, Mat[][] mesh, Mat transform, Color[] c) {
 		for(int i = 0; i < mesh.length; i++) drawPolygon(g2d, mesh[i], transform, c[i]);
 	}
-	public void fillMesh(Graphics2D g2d, Mat[][] mesh, Mat transform, Color[] c) {
+	public static void fillMesh(Graphics2D g2d, Mat[][] mesh, Mat transform, Color[] c) {
 		for(int i = 0; i < mesh.length; i++) fillPolygon(g2d, mesh[i], transform, c[i]);
 	}
 }

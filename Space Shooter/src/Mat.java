@@ -95,7 +95,15 @@ public class Mat {
 	}
 	
 	public Mat add(Mat m) {
-		return null;
+		Mat o = new Mat(m.row, m.col);
+		for(int i = 0; i < data.length; i++) {
+			o.data[i] = data[i] + m.data[i];
+		}
+		return o;
+	}
+	public Mat sub(Mat m) {
+		Mat me = new Mat(row, col, data);
+		return m.multiply(-1).add(me);
 	}
 	
 	public static Mat getIdentityMat(int r, int c) {
@@ -104,6 +112,32 @@ public class Mat {
 		return m;
 	}
 	
+	
+	public void homogenous() {
+		data[data.length-1] = 1;
+	}
+	
+	public Mat getHomogenous() {
+		Mat o = new Mat(row, col, data);
+		o.data[o.data.length-1] = 1;
+		return o;
+	}
+	
+	public double getMag() {
+		double d = 0;
+		for(int i = 0; i < data.length; i++) {
+			d += data[i] * data[i];
+		}
+		return Math.sqrt(d);
+	}
+	
+	public double dot(Mat m) {
+		double d = 0;
+		for(int i = 0; i < m.data.length; i++) {
+			d += m.data[i] * data[i];
+		}
+		return d;
+	}
 	
 	public static Mat translationMat3x3(double x, double y) {
 		return new Mat(3, 3, 
