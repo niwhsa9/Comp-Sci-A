@@ -16,14 +16,14 @@ public class Enemy extends GameObject {
 		super.update(dt);
 		
 		if(level == 1) {
-			if(y < 500 && enterFlag == false) {
+			if(y < 200 && enterFlag == false) {
 				theta = Math.PI/4;
 				speed = 100;
 				
 			}
 			else { 
 				enterFlag = true;
-				super.setDxDy(100*Math.sin(t), 80*Math.cos(t));
+				super.setDxDy(300*Math.sin(t), 300*Math.cos(t));
 				t+=dt;
 
 			}
