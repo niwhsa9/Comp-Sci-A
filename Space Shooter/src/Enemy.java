@@ -23,7 +23,9 @@ public class Enemy extends GameObject {
 			}
 			else { 
 				enterFlag = true;
-				super.setDxDy(300*Math.sin(t), 300*Math.cos(t));
+				//super.setDxDy(300*Math.sin(t), 300*Math.cos(t));
+				super.setDxDy(400*Math.sin(2*t)*Math.cos(t), 400*Math.sin(2*t)*Math.sin(t));
+
 				t+=dt;
 
 			}

@@ -47,9 +47,13 @@ public class Animation {
 		
 		particles[i].color = new Color(255, 0, 0);
 		
+		if(s.speed > 0 && s.tmp.getPercent() < 0.5) particles[i].color = new Color(0, 0, 255);
+		
 		dxdy[i] = new Point2D.Double(xOff * 2.05, -250);
 		
 	}
+	
+	
 	
 	public void fire(Spaceship s) {
 		this.s = s;
@@ -91,7 +95,10 @@ public class Animation {
 				//System.out.println(alpha);
 				double p = dist/maxFireDist;
 			
-				particles[i].color = new Color( (int)(255), (int)Math.min(p*255, 255), 0, Math.abs(alpha));
+				if(particles[i].color.getBlue() == 255) {
+					particles[i].color = new Color( 0, 0, 255, Math.abs(alpha));
+				} else 
+					particles[i].color = new Color( (int)(255), (int)Math.min(p*255, 255), 0, Math.abs(alpha));
 				
 				
 				particles[i].update(dt);
@@ -99,11 +106,11 @@ public class Animation {
 				
 				if(dist >= maxFireDist) {
 					makeFireParticle(i, false);
-				}/*
+				}
 				if(s.speed > 0) {
-					maxFireDist = 350;
+					maxFireDist = 200;
 					//dxdy[i].setLocation(dxdy[i].x, dxdy[i] +);
-				} */
+				} else maxFireDist = 200;
 				//reduce color and transparency as it comes out in y
 			}
 		}
