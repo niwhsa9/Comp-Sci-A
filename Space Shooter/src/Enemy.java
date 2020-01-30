@@ -1,15 +1,25 @@
+import java.awt.Color;
+import java.awt.Graphics;
 
 public class Enemy extends GameObject {
 	int level = 1;
+	boolean isAlive = true;
 	
 	Enemy(double x, double y, double w, double h, int level) {
 		super(x, y, w, h);
 		this.level = level;
+		this.color = Color.MAGENTA;
 		// TODO Auto-generated constructor stub
 	}
 	double t = 0;
 	
 	boolean enterFlag = false;
+	
+	public void paintComponent(Graphics g) {
+		
+		if(isAlive)	super.paintComponent(g);
+		
+	}
 
 	
 	public void update(double dt) {

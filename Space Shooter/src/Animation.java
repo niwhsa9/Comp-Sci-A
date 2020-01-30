@@ -23,7 +23,7 @@ public class Animation {
 		startTime = time;
 		particles = new GameObject[40];
 		for(int i = 0 ; i < particles.length; i++) {
-			particles[i] = new GameObject(x, y, 2, 2);
+			particles[i] = new GameObject(x, y, 6, 6);
 			particles[i].color = color; //rand color
 			particles[i].speed = 400;
 			particles[i].theta = Math.random() * Math.PI*2; 
@@ -125,6 +125,7 @@ public class Animation {
 				animation = -1;
 			}
 		} */
+		
 	}
 	
 	public void paintComponent(Graphics g) {

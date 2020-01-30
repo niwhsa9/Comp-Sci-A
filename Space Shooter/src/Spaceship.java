@@ -20,6 +20,10 @@ public class Spaceship extends GameObject {
 	
 	int absX;
 	int absY;
+	
+	double time = 0;
+	boolean hurt = false;
+	double hurtTime = 0;
 
 
 	Spaceship(double x, double y, double w, double h) {
@@ -56,8 +60,16 @@ public class Spaceship extends GameObject {
 		fire.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.RED);
+		
 		Scene.fillMesh(g2d, mesh, model, layers);
 	
+		if(hurt) {
+			//layers[0] = new Color(255, 0, 0, 50);
+			g2d.setColor(new Color(255, 0, 0, 50));
+			g2d.fillOval((int)x-75, (int)y-75, 150, 150);
+			
+		}
+		
 		g2d.setColor(Color.BLUE);
 
 		//g2d.fill(getPolygon(0));
@@ -65,8 +77,17 @@ public class Spaceship extends GameObject {
 
 	}
 	
+	public void hurt() {
+		hurt = true;
+		hurtTime = time;
+	}
+	
 	public void update(double dt) {
 		fire.update(dt);
+		time+=dt;
+		
+		if(hurt && time - hurtTime < 1);
+		else if(hurt) hurt = false;
 		
 		//Mat lCorner = new Mat(3, 1, new double[] {x})
 		
