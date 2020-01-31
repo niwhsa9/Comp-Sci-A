@@ -57,7 +57,7 @@ public class Menu extends Scene {
 		drawCenteredString(g2d, "Select 1 for single player", scoreFont, Constants.WindowDims.width/2, Constants.WindowDims.height/2);
 		
 
-		drawCenteredString(g2d, "How to play: ",textFont, Constants.WindowDims.width/2, 600);
+		drawCenteredString(g2d, "How to play: use wasd to move, space bar to shoot. Objectve is to destory all aliens",textFont, Constants.WindowDims.width/2, 600);
 
 		//g2d.drawString("Select 3 for Gravity Ball", 50, 300);
 		//g2d.drawString("Select 4 for Phase Through Ball", 50, 400);
@@ -83,7 +83,7 @@ public class Menu extends Scene {
 			
 			TestScene s = new TestScene(1, sceneQueue);
 			sceneQueue.add(s);
-			sceneQueue.add(new Menu(sceneQueue));
+			//sceneQueue.add(new Menu(sceneQueue));
 			isDone = true; 
 		}
 	}

@@ -39,6 +39,20 @@ public class Enemy extends GameObject {
 				t+=dt;
 
 			}
+		}  else {
+			if(y < 200 && enterFlag == false) {
+				theta = Math.PI/4;
+				speed = 100;
+				
+			}
+			else { 
+				enterFlag = true;
+				//super.setDxDy(300*Math.sin(t), 300*Math.cos(t));
+				super.setDxDy(200*Math.sin(t), 200*Math.cos(t));
+
+				t+=dt;
+
+			}
 		}
 		phi = theta; 
 	}

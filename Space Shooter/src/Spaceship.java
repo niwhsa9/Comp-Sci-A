@@ -36,6 +36,8 @@ public class Spaceship extends GameObject {
 		yData[0] = new int[]{7, 5, 3, 2, 2, 1, 1, -1, -1, 0, 0, -2, -2, 0, -1, -3, -4, -5, -6, -6, -5, -4, -3, -1, 0, -2, -2, 0, 0, -1, -1, 1, 1, 2, 2, 3, 5, 7};
 		xData[1] = new int[] {-1, 1, 1, -1};
 		yData[1] = new int[] {5, 5, 4, 4};
+		//xData[1] = new int[] {2,3, 3, 2};
+		//yData[1] = new int[] {1, 1, 4, 4};
 		layers[0] = new Color(128, 128, 128);
 		layers[1] = Color.blue;
 		
