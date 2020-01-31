@@ -18,12 +18,14 @@ public class Spaceship extends GameObject {
 	ArrayList<GameObject> bullets = new ArrayList<GameObject>();
 	Animation fire;
 	
+	
 	int absX;
 	int absY;
 	
 	double time = 0;
 	boolean hurt = false;
 	double hurtTime = 0;
+	boolean visible = true;
 
 
 	Spaceship(double x, double y, double w, double h) {
@@ -58,6 +60,7 @@ public class Spaceship extends GameObject {
 	}
 	
 	public void paintComponent(Graphics g) {
+		if(visible) {
 		super.paintComponent(g);
 		fire.paintComponent(g);
 		Graphics2D g2d = (Graphics2D) g;
@@ -76,7 +79,7 @@ public class Spaceship extends GameObject {
 
 		//g2d.fill(getPolygon(0));
 	//	g2d.fill(hitbox);
-
+		}
 	}
 	
 	public void hurt() {

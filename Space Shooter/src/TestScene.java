@@ -26,6 +26,9 @@ public class TestScene extends Scene {
 	double time = 0;
 	int numEnemies;
 	boolean gameEnd = false;
+	
+	Missile tmp = new Missile(0, 0, 20, 10, ship);
+
 
 	public void makeStars(int n) {
 		for (int i = 0; i < n; i++) {
@@ -68,8 +71,9 @@ public class TestScene extends Scene {
 			numEnemies = 2;
 			break;
 		default:
-			sceneQueue.add(new Menu(sceneQueue));
-			isDone = true;
+			gameEnd = true;
+			// sceneQueue.add(new Menu(sceneQueue));
+			// isDone = true;
 			break;
 		}
 		gameObjects.add(ship);
@@ -84,7 +88,6 @@ public class TestScene extends Scene {
 		g2d.setColor(Color.RED);
 
 		// ship.paintComponent(g2d);
-		if (!gameEnd) {
 			drawCenteredString(g2d, "Score " + score, scoreFont, Constants.WindowDims.width / 2, 50);
 			drawCenteredString(g2d, "Lives " + lives, scoreFont, Constants.WindowDims.width - 100, 50);
 			drawCenteredString(g2d, "Level " + level, scoreFont, 100, 50);
@@ -102,14 +105,23 @@ public class TestScene extends Scene {
 			for (int i = 0; i < gameObjects.size(); i++)
 				gameObjects.get(i).paintComponent(g2d);
 
-			for (int i = 0; i < animationManager.size(); i++)
-				animationManager.get(i).paintComponent(g);
-		} else {
-			
-			drawCenteredString(g2d, "Game Over. You scored: " + score, scoreFont, Constants.WindowDims.width / 2, 400);
+		if(gameEnd) {
+			g2d.setColor(Color.RED);
+
+			if (level < 3)
+				drawCenteredString(g2d, "Game Over. You scored: " + score, scoreFont, Constants.WindowDims.width / 2,
+						400);
+			else
+				drawCenteredString(g2d, "You won! You scored: " + score, scoreFont, Constants.WindowDims.width / 2,
+						400);
+
 			drawCenteredString(g2d, "Press space to return to menu", scoreFont, Constants.WindowDims.width / 2, 500);
 
 		}
+		for (int i = 0; i < animationManager.size(); i++)
+			animationManager.get(i).paintComponent(g);
+		
+		//tmp.paintComponent(g);
 
 	}
 
@@ -200,47 +212,63 @@ public class TestScene extends Scene {
 
 	public void update(double dt) {
 		time += dt;
+		//tmp.update(dt);
+		// ship.update(dt);
+		for (int i = 0; i < gameObjects.size(); i++)
+			gameObjects.get(i).update(dt);
+
+		// System.out.println(stars.size());
+		for (int i = 0; i < stars.size(); i++) {
+			stars.get(i).theta = ship.theta + Math.PI;
+			// Point2D q = traceToBorder(stars.get(i).x, stars.get(i).y,
+			// stars.get(i).theta); //remove
+
+			if (stars.get(i).isVisible() == false) {
+				Point2D b = traceToBorder(stars.get(i).x, stars.get(i).y, stars.get(i).theta);
+				stars.get(i).x = b.getX();
+				stars.get(i).y = b.getY();
+
+			} else
+				stars.get(i).update(dt);
+		}
+		for (int i = 0; i < ship.bullets.size(); i++) {
+			ship.bullets.get(i).update(dt);
+			for (int q = 0; q < enemy.size(); q++) {
+				if (enemy.get(q).isAlive && ship.bullets.get(i).hitbox.intersects(enemy.get(q).hitbox)) {
+					enemy.get(q).isAlive = false;
+
+					ship.bullets.remove(i);
+					i--;
+
+					Animation a = new Animation();
+					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), Color.MAGENTA);
+					animationManager.add(a);
+					score += 100;
+					numEnemies--;
+
+				}
+
+			}
+		}
+		
+
+
 		if (!gameEnd) {
 			if ((int) time != prevWhole) {
 				score += 10;
 				prevWhole = (int) time;
 			}
-			// ship.update(dt);
-			for (int i = 0; i < gameObjects.size(); i++)
-				gameObjects.get(i).update(dt);
-
-			// System.out.println(stars.size());
-			for (int i = 0; i < stars.size(); i++) {
-				stars.get(i).theta = ship.theta + Math.PI;
-				// Point2D q = traceToBorder(stars.get(i).x, stars.get(i).y,
-				// stars.get(i).theta); //remove
-
-				if (stars.get(i).isVisible() == false) {
-					Point2D b = traceToBorder(stars.get(i).x, stars.get(i).y, stars.get(i).theta);
-					stars.get(i).x = b.getX();
-					stars.get(i).y = b.getY();
-
-				} else
-					stars.get(i).update(dt);
+			if (numEnemies == 0) {
+				level++;
+				sceneQueue.add(new TestScene(level, sceneQueue));
+				isDone = true;
 			}
-			for (int i = 0; i < ship.bullets.size(); i++) {
-				ship.bullets.get(i).update(dt);
-				for (int q = 0; q < enemy.size(); q++) {
-					if (enemy.get(q).isAlive && ship.bullets.get(i).hitbox.intersects(enemy.get(q).hitbox)) {
-						enemy.get(q).isAlive = false;
-
-						ship.bullets.remove(i);
-						i--;
-
-						Animation a = new Animation();
-						a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), Color.MAGENTA);
-						animationManager.add(a);
-						score += 100;
-						numEnemies--;
-
-					}
-
-				}
+			if (lives == 0) {
+				Animation a = new Animation();
+				a.explosion(ship.x, ship.y, new Color(128, 128, 128));
+				animationManager.add(a);
+				ship.visible = false;
+				gameEnd = true;
 			}
 			for (int q = 0; q < enemy.size(); q++) {
 				if (enemy.get(q).isAlive && ship.getPolygon(0).intersects(enemy.get(q).hitbox)) {
@@ -253,24 +281,17 @@ public class TestScene extends Scene {
 					numEnemies--;
 				}
 			}
+		}
 
-			for (int i = 0; i < animationManager.size(); i++) {
-				animationManager.get(i).update(dt);
-			}
-			if (numEnemies == 0) {
-				level++;
-				sceneQueue.add(new TestScene(level, sceneQueue));
-				isDone = true;
-			}
-			if (lives == 0)
-				gameEnd = true;
-		} else {
+		if (gameEnd) {
 			if (Input.keysPressed[Constants.KEY_SPACE]) {
 				sceneQueue.add(new Menu(sceneQueue));
 				isDone = true;
 			}
 		}
-
+		for (int i = 0; i < animationManager.size(); i++) {
+			animationManager.get(i).update(dt);
+		}
 		// tmp.update(dt);
 		// System.out.println("here");
 		// Syste,.doLayout();.println(ship.)

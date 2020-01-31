@@ -14,6 +14,7 @@ public class Animation {
 	double time = 0;
 	Random rn = new Random();
 	Spaceship s;
+
 	
 	double maxFireDist = 200;
 	
@@ -25,7 +26,7 @@ public class Animation {
 		for(int i = 0 ; i < particles.length; i++) {
 			particles[i] = new GameObject(x, y, 6, 6);
 			particles[i].color = color; //rand color
-			particles[i].speed = 400;
+			particles[i].speed = 300;
 			particles[i].theta = Math.random() * Math.PI*2; 
 		}
 	}
@@ -54,7 +55,6 @@ public class Animation {
 	}
 	
 	
-	
 	public void fire(Spaceship s) {
 		this.s = s;
 		animation = 1;
@@ -68,6 +68,16 @@ public class Animation {
 		}
 	}
 	
+	public void boost(Spaceship s) {
+		this.s = s;
+		animation = 2;
+		startTime = time;
+		particles = new GameObject[20];
+		for(int i = 0; i < particles.length; i++) {
+			
+		}
+		
+	}
 	
 	public void update(double dt) {
 		time+=dt;
@@ -114,17 +124,9 @@ public class Animation {
 				//reduce color and transparency as it comes out in y
 			}
 		}
-		/*
-		if(animation == 1) {
-			for(int i = 0; i < particles.length; i++) {
-				//particles[i].theta += 0.02;
-				particles[i].update(dt);
-			}
+		if(animation == 2) {
 			
-			if(time-startTime >= 1.5) {
-				animation = -1;
-			}
-		} */
+		}
 		
 	}
 	

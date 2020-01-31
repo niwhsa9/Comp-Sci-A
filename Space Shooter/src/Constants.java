@@ -17,8 +17,9 @@ public class Constants {
 
 
 
-	/** Brick Constants **/
-
+	/** Missile Constants **/
+	public static final double MISSILE_SPEED = 400;
+	public static final double MISSILE_MAX_OMEGA = Math.PI;
 
 	
 	/** Ball Constants **/
