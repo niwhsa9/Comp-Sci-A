@@ -17,17 +17,17 @@ public class TestScene extends Scene {
 	Queue<Scene> sceneQueue;
 	Font scoreFont = new Font("Serif", Font.BOLD, 30);
 	ArrayList<Animation> animationManager = new ArrayList<Animation>();
+	Missile tmp;// = new Missile(0, 0, 20, 10, ship);
 
 	Random rn = new Random();
 	int level = 1;
-	int lives = 3;
+	//int lives = 3;
 	int score = 0;
 	int prevWhole = 0;
 	double time = 0;
 	int numEnemies;
 	boolean gameEnd = false;
 	
-	Missile tmp = new Missile(0, 0, 20, 10, ship);
 
 
 	public void makeStars(int n) {
@@ -54,6 +54,7 @@ public class TestScene extends Scene {
 		this.sceneQueue = sceneQueue;
 
 		ship = new Spaceship(400, 400, 0, 0);
+		tmp = new Missile(0, 0, 20, 10, ship);
 
 		switch (level) {
 		case 1:
@@ -89,7 +90,7 @@ public class TestScene extends Scene {
 
 		// ship.paintComponent(g2d);
 			drawCenteredString(g2d, "Score " + score, scoreFont, Constants.WindowDims.width / 2, 50);
-			drawCenteredString(g2d, "Lives " + lives, scoreFont, Constants.WindowDims.width - 100, 50);
+			drawCenteredString(g2d, "Health " + ship.health, scoreFont, Constants.WindowDims.width - 100, 50);
 			drawCenteredString(g2d, "Level " + level, scoreFont, 100, 50);
 
 			g2d.setColor(Color.WHITE);
@@ -121,7 +122,7 @@ public class TestScene extends Scene {
 		for (int i = 0; i < animationManager.size(); i++)
 			animationManager.get(i).paintComponent(g);
 		
-		//tmp.paintComponent(g);
+		tmp.paintComponent(g);
 
 	}
 
@@ -212,7 +213,6 @@ public class TestScene extends Scene {
 
 	public void update(double dt) {
 		time += dt;
-		//tmp.update(dt);
 		// ship.update(dt);
 		for (int i = 0; i < gameObjects.size(); i++)
 			gameObjects.get(i).update(dt);
@@ -263,7 +263,7 @@ public class TestScene extends Scene {
 				sceneQueue.add(new TestScene(level, sceneQueue));
 				isDone = true;
 			}
-			if (lives == 0) {
+			if (ship.health == 0) {
 				Animation a = new Animation();
 				a.explosion(ship.x, ship.y, new Color(128, 128, 128));
 				animationManager.add(a);
@@ -272,7 +272,7 @@ public class TestScene extends Scene {
 			}
 			for (int q = 0; q < enemy.size(); q++) {
 				if (enemy.get(q).isAlive && ship.getPolygon(0).intersects(enemy.get(q).hitbox)) {
-					lives--;
+					ship.health--;
 					enemy.get(q).isAlive = false;
 					Animation a = new Animation();
 					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), Color.MAGENTA);
@@ -292,7 +292,8 @@ public class TestScene extends Scene {
 		for (int i = 0; i < animationManager.size(); i++) {
 			animationManager.get(i).update(dt);
 		}
-		// tmp.update(dt);
+
+	 tmp.update(dt);
 		// System.out.println("here");
 		// Syste,.doLayout();.println(ship.)
 	}

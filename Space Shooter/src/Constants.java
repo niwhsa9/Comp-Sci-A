@@ -18,7 +18,7 @@ public class Constants {
 
 
 	/** Missile Constants **/
-	public static final double MISSILE_SPEED = 400;
+	public static final double MISSILE_SPEED = 200;
 	public static final double MISSILE_MAX_OMEGA = Math.PI;
 
 	

@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -5,6 +6,10 @@ public class Missile extends GameObject {
 
 	Spaceship s;
 	double omega;
+	boolean aquired = false;
+	boolean isDone = false;
+	Animation collision = new Animation(); 
+	Animation trail = new Animation();
 	
 	Missile(double x, double y, double w, double h, Spaceship s) {
 		super(x, y, w, h);
@@ -13,18 +18,36 @@ public class Missile extends GameObject {
 	}
 	
 	public void paintComponent(Graphics g) {
-		super.paintComponent(g);
-		Graphics2D g2d = (Graphics2D) g;
-		
+		if(!isDone) {
+			super.paintComponent(g);
+			Graphics2D g2d = (Graphics2D) g;
+			if(aquired) this.color = Color.red;
+		}
+		collision.paintComponent(g);
+		trail.paintComponent(g);
 	}
 	
 	public void update(double dt) {
 		super.update(dt);
-		this.theta += omega * dt;
-		this.phi = this.theta;
 		double reqTheta = Math.atan2(s.y - y, s.x - x);
-		omega = Constants.MISSILE_MAX_OMEGA * omega * (reqTheta-theta);
+		if(!aquired) {
+			this.theta += omega * dt;
+			this.phi = this.theta;
+			omega = Constants.MISSILE_MAX_OMEGA  * (reqTheta-theta);
+			this.speed = Constants.MISSILE_SPEED; //HAVE SPEED FOLLOW A TMP
+		}
+		if(Math.abs(reqTheta - theta) < 0.2 && new Mat(2, 1, new double[] {x, y}).sub(new Mat(2, 1, new double[] {s.x, s.y})).getMag() <= 200 )   aquired = true;
 		
+		if(!isDone && s.getPolygon(0).intersects(this.hitbox)) {
+			s.health --;
+			isDone = true;
+			collision.directionalExplosion(x, y, Math.PI+theta, Color.RED);
+			//collision.explosion(x, y, new Color(255, 0, 0));
+			s.hurt();
+			
+		}
+		collision.update(dt);
+		trail.update(dt);
 	}
 
 }

@@ -31,6 +31,18 @@ public class Animation {
 		}
 	}
 	
+	public void directionalExplosion(double x, double y, double theta, Color color) {
+		animation = 3;
+		startTime = time;
+		particles = new GameObject[40];
+		for(int i = 0 ; i < particles.length; i++) {
+			particles[i] = new GameObject(x, y, 6, 6);
+			particles[i].color = color; //rand color
+			particles[i].speed = Math.abs(rn.nextGaussian()+1.0) * 100;
+			particles[i].theta = theta + rn.nextGaussian() * Math.PI/8;
+		}
+	}
+	
 	public void makeFireParticle(int i, boolean init) {
 		double xOff = rn.nextGaussian() * 10;
 		double yOff = 65;
@@ -127,7 +139,16 @@ public class Animation {
 		if(animation == 2) {
 			
 		}
-		
+		if(animation == 3) {
+			for(int i = 0; i < particles.length; i++) {
+			//particles[i].theta += 0.02;
+				particles[i].update(dt);
+				particles[i].color = new Color(particles[i].color.getRed(), particles[i].color.getGreen(), particles[i].color.getBlue(), (int)Math.abs(((1.5-(time-startTime)) * 255))); 
+			}
+			if(time-startTime >= 1.5) {
+				animation = -1;
+			}
+		}
 	}
 	
 	public void paintComponent(Graphics g) {

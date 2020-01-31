@@ -16,6 +16,10 @@ public class Spaceship extends GameObject {
 	ArrayList<GameObject> particles = new ArrayList<GameObject>();
 	Mat thrustDir;
 	ArrayList<GameObject> bullets = new ArrayList<GameObject>();
+	ArrayList<GameObject> enemyBullet = new ArrayList<GameObject>();
+	ArrayList<Missile> enemyMissile = new ArrayList<Missile>();
+	int health = 3;
+
 	Animation fire;
 	
 	
