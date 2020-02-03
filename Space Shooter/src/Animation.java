@@ -10,7 +10,7 @@ public class Animation {
 	GameObject[] particles; 
 	Point2D[] dxdy;
 	double startTime;
-	double animation = -1;
+	int animation = -1;
 	double time = 0;
 	Random rn = new Random();
 	Spaceship s;
@@ -62,7 +62,7 @@ public class Animation {
 		
 		if(s.speed > 0 && s.tmp.getPercent() < 0.5) particles[i].color = new Color(0, 0, 255);
 		
-		dxdy[i] = new Point2D.Double(xOff * 2.05, -250);
+		dxdy[i] = new Point2D.Double(xOff * 2.05, -250 );
 		
 	}
 	
@@ -143,7 +143,9 @@ public class Animation {
 			for(int i = 0; i < particles.length; i++) {
 			//particles[i].theta += 0.02;
 				particles[i].update(dt);
-				particles[i].color = new Color(particles[i].color.getRed(), particles[i].color.getGreen(), particles[i].color.getBlue(), (int)Math.abs(((1.5-(time-startTime)) * 255))); 
+				particles[i].color = new Color(particles[i].color.getRed(), particles[i].color.getGreen(), particles[i].color.getBlue()
+						,(int)Math.abs(( Math.min(1.5-(time-startTime), 1.0) ) * 255)
+						);  //(int)Math.abs(((1.5-(time-startTime)) * 255))
 			}
 			if(time-startTime >= 1.5) {
 				animation = -1;
@@ -154,7 +156,11 @@ public class Animation {
 	public void paintComponent(Graphics g) {
 		if(animation != -1) {
 			for(int i = 0; i < particles.length; i++) {
-				particles[i].paintComponent(g);
+				try {
+					particles[i].paintComponent(g);
+				} catch(Exception e) {
+					System.out.println("NULL PTR: " + i + time +"|" + startTime + " anim " + animation);
+				}
 			}
 		}
 	}

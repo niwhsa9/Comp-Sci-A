@@ -9,7 +9,7 @@ public class Constants {
 	
 	/** Spaceship Constants **/
 	public static final double THRUST_ACCEL = 1000;
-	public static final double SHIP_ROTATE_VELO = Math.PI/2;
+	public static final double SHIP_ROTATE_VELO = Math.PI/2 ;
 	public static final double BULLET_SPEED = 500;
 	public static final double BULLET_WIDTH = 5;
 	public static final double BULLET_HEIGHT = 10;
