@@ -6,6 +6,7 @@ public class Enemy extends GameObject {
 	int level = 1;
 	boolean isAlive = true;
 	double prevMissile = 0;
+	double prevBullet = 0;
 	Missile m;
 	ArrayList<GameObject> bullets = new ArrayList<GameObject>();
 
@@ -37,8 +38,15 @@ public class Enemy extends GameObject {
 		for(int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).update(dt);
 			if(TestScene.ship.getPolygon(0).intersects(bullets.get(i).hitbox)) {
-				TestScene.ship.hurt();
+				TestScene.ship.hurt(1);
+				bullets.remove(i);
+				
+				i--;
 			
+			}
+			if(!bullets.get(i).isVisible()) {
+				bullets.remove(i);
+				i--;
 			}
 		}
 		
@@ -58,6 +66,15 @@ public class Enemy extends GameObject {
 				if(t - prevMissile > 3.5 && (m == null || m.isDone)) {
 					prevMissile = t;
 					m = new Missile(x, y, 20, 5, TestScene.ship);
+				}
+				if(t - prevBullet > 0.5) {
+					prevBullet = t;
+					GameObject bullet = new GameObject(x, y, 10, 5);
+					bullet.theta = Math.atan2(TestScene.ship.y - y, TestScene.ship.x - x);
+					bullet.speed = 300;
+					bullet.phi = bullet.theta;
+					bullet.color = Color.blue;
+					bullets.add(bullet);
 				}
 
 			}

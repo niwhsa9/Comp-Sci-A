@@ -277,7 +277,7 @@ public class TestScene extends Scene {
 					Animation a = new Animation();
 					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), Color.MAGENTA);
 					animationManager.add(a);
-					ship.hurt();
+					ship.hurt(10);
 					numEnemies--;
 				}
 			}

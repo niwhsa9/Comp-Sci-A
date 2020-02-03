@@ -18,7 +18,7 @@ public class Spaceship extends GameObject {
 	ArrayList<GameObject> bullets = new ArrayList<GameObject>();
 	ArrayList<GameObject> enemyBullet = new ArrayList<GameObject>();
 	ArrayList<Missile> enemyMissile = new ArrayList<Missile>();
-	int health = 3;
+	int health = 100;
 
 	Animation fire;
 	
@@ -86,9 +86,9 @@ public class Spaceship extends GameObject {
 		}
 	}
 	
-	public void hurt() {
+	public void hurt(int amt) {
 		hurt = true;
-		health--;
+		health-=amt;
 		hurtTime = time;
 	}
 	
