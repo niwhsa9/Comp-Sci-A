@@ -88,6 +88,7 @@ public class Spaceship extends GameObject {
 	
 	public void hurt() {
 		hurt = true;
+		health--;
 		hurtTime = time;
 	}
 	

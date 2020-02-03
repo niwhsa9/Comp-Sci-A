@@ -46,8 +46,10 @@ public class Missile extends GameObject {
 			s.hurt();
 			
 		}
+		if(leftX() > Constants.WindowDims.width || rightX() < 0 || topY() > Constants.WindowDims.height || bottomY() < 0) isDone = true;
 		collision.update(dt);
 		trail.update(dt);
+		
 	}
 
 }

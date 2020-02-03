@@ -9,7 +9,7 @@ import java.util.Queue;
 import java.util.Random;
 
 public class TestScene extends Scene {
-	Spaceship ship;
+	static Spaceship ship;
 
 	ArrayList<GameObject> gameObjects = new ArrayList<GameObject>();
 	ArrayList<Enemy> enemy = new ArrayList<Enemy>();
@@ -17,7 +17,7 @@ public class TestScene extends Scene {
 	Queue<Scene> sceneQueue;
 	Font scoreFont = new Font("Serif", Font.BOLD, 30);
 	ArrayList<Animation> animationManager = new ArrayList<Animation>();
-	Missile tmp;// = new Missile(0, 0, 20, 10, ship);
+	//Missile tmp;// = new Missile(0, 0, 20, 10, ship);
 
 	Random rn = new Random();
 	int level = 1;
@@ -54,7 +54,7 @@ public class TestScene extends Scene {
 		this.sceneQueue = sceneQueue;
 
 		ship = new Spaceship(400, 400, 0, 0);
-		tmp = new Missile(0, 0, 20, 10, ship);
+		//tmp = new Missile(0, 0, 20, 10, ship);
 
 		switch (level) {
 		case 1:
@@ -122,7 +122,7 @@ public class TestScene extends Scene {
 		for (int i = 0; i < animationManager.size(); i++)
 			animationManager.get(i).paintComponent(g);
 		
-		tmp.paintComponent(g);
+	//	tmp.paintComponent(g);
 
 	}
 
@@ -263,7 +263,7 @@ public class TestScene extends Scene {
 				sceneQueue.add(new TestScene(level, sceneQueue));
 				isDone = true;
 			}
-			if (ship.health == 0) {
+			if (ship.health < 0) {
 				Animation a = new Animation();
 				a.explosion(ship.x, ship.y, new Color(128, 128, 128));
 				animationManager.add(a);
@@ -272,7 +272,7 @@ public class TestScene extends Scene {
 			}
 			for (int q = 0; q < enemy.size(); q++) {
 				if (enemy.get(q).isAlive && ship.getPolygon(0).intersects(enemy.get(q).hitbox)) {
-					ship.health--;
+					//ship.health--;
 					enemy.get(q).isAlive = false;
 					Animation a = new Animation();
 					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), Color.MAGENTA);
@@ -293,7 +293,7 @@ public class TestScene extends Scene {
 			animationManager.get(i).update(dt);
 		}
 
-	 tmp.update(dt);
+	// tmp.update(dt);
 		// System.out.println("here");
 		// Syste,.doLayout();.println(ship.)
 	}
