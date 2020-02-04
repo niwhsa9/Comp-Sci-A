@@ -14,6 +14,7 @@ public class Missile extends GameObject {
 	Missile(double x, double y, double w, double h, Spaceship s) {
 		super(x, y, w, h);
 		this.s = s;
+		this.color = Color.cyan;
 		// TODO Auto-generated constructor stub
 	}
 	

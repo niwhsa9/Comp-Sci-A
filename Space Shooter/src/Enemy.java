@@ -67,7 +67,7 @@ public class Enemy extends GameObject {
 					prevMissile = t;
 					m = new Missile(x, y, 20, 5, TestScene.ship);
 				}
-				if(t - prevBullet > 0.5) {
+				if(t - prevBullet > 1.0) {
 					prevBullet = t;
 					GameObject bullet = new GameObject(x, y, 10, 5);
 					bullet.theta = Math.atan2(TestScene.ship.y - y, TestScene.ship.x - x);
@@ -91,7 +91,7 @@ public class Enemy extends GameObject {
 
 				t+=dt;
 				
-				if(t - prevMissile > 3.5 && (m == null || m.isDone)) {
+				if(t - prevMissile > 4.5 && (m == null || m.isDone)) {
 					prevMissile = t;
 					m = new Missile(x, y, 20, 5, TestScene.ship);
 				}
