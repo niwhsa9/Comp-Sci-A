@@ -1,12 +1,17 @@
+import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Point2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Queue;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 public class TestScene extends Scene {
 	static Spaceship ship;
@@ -17,6 +22,7 @@ public class TestScene extends Scene {
 	Queue<Scene> sceneQueue;
 	Font scoreFont = new Font("Serif", Font.BOLD, 30);
 	ArrayList<Animation> animationManager = new ArrayList<Animation>();
+	BufferedImage background;
 	//Missile tmp;// = new Missile(0, 0, 20, 10, ship);
 
 	Random rn = new Random();
@@ -52,6 +58,13 @@ public class TestScene extends Scene {
 		super();
 		this.level = level;
 		this.sceneQueue = sceneQueue;
+		
+		try {
+			background = ImageIO.read(new File("images/background.jpg"));
+		} catch(Exception e) {
+			
+		}
+		
 
 		ship = new Spaceship(400, 400, 0, 0);
 		//tmp = new Missile(0, 0, 20, 10, ship);
@@ -86,6 +99,13 @@ public class TestScene extends Scene {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, Constants.WindowDims.width, Constants.WindowDims.height);
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.5f));
+		
+		g2d.drawImage(background, 0, 0, (int)Constants.WindowDims.width, (int)Constants.WindowDims.height, null);
+		
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1.0f));
+
 		g2d.setColor(Color.RED);
 
 		// ship.paintComponent(g2d);
@@ -241,7 +261,7 @@ public class TestScene extends Scene {
 					i--;
 
 					Animation a = new Animation();
-					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), Color.MAGENTA);
+					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), enemy.get(q).color);
 					animationManager.add(a);
 					score += 100;
 					numEnemies--;

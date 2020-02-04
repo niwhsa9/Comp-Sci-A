@@ -132,7 +132,9 @@ public class Animation {
 				if(s.speed > 0) {
 					maxFireDist = 200;
 					//dxdy[i].setLocation(dxdy[i].x, dxdy[i] +);
-				} else maxFireDist = 200;
+				} else {
+					maxFireDist = 200;
+				}
 				//reduce color and transparency as it comes out in y
 			}
 		}

@@ -13,6 +13,8 @@ public class Spaceship extends GameObject {
 	boolean risingEdgeShoot = false;
 
 	TrapezoidMotionProfile tmp = new TrapezoidMotionProfile(0, 0, 0, 0);
+	//TrapezoidMotionProfile rotateTmp = new TrapezoidMotionProfile(, 0, 0, 0);
+
 	ArrayList<GameObject> particles = new ArrayList<GameObject>();
 	Mat thrustDir;
 	ArrayList<GameObject> bullets = new ArrayList<GameObject>();
@@ -96,6 +98,8 @@ public class Spaceship extends GameObject {
 	public void update(double dt) {
 		fire.update(dt);
 		time+=dt;
+		
+	
 		
 		if(hurt && time - hurtTime < 1);
 		else if(hurt) hurt = false;
