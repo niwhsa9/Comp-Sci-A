@@ -23,18 +23,18 @@ public class TestScene extends Scene {
 	Font scoreFont = new Font("Serif", Font.BOLD, 30);
 	ArrayList<Animation> animationManager = new ArrayList<Animation>();
 	BufferedImage background;
-	//Missile tmp;// = new Missile(0, 0, 20, 10, ship);
+	// Missile tmp;// = new Missile(0, 0, 20, 10, ship);
 
 	Random rn = new Random();
 	int level = 1;
-	//int lives = 3;
+	// int lives = 3;
 	int score = 0;
 	int prevWhole = 0;
 	double time = 0;
 	int numEnemies;
 	boolean gameEnd = false;
-	
-
+	boolean readyForNext = false;
+	double readyNextTime;
 
 	public void makeStars(int n) {
 		for (int i = 0; i < n; i++) {
@@ -58,28 +58,27 @@ public class TestScene extends Scene {
 		super();
 		this.level = level;
 		this.sceneQueue = sceneQueue;
-		
+
 		try {
 			background = ImageIO.read(new File("images/background.jpg"));
-		} catch(Exception e) {
-			
+		} catch (Exception e) {
+
 		}
-		
 
 		ship = new Spaceship(400, 400, 0, 0);
-		//tmp = new Missile(0, 0, 20, 10, ship);
+		// tmp = new Missile(0, 0, 20, 10, ship);
 
 		switch (level) {
 		case 1:
 			for (int i = 0; i < 5; i++) {
-				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 50, 50, level));
+				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 90, 90, level));
 				gameObjects.add(enemy.get(i));
 			}
 			numEnemies = 5;
 			break;
 		case 2:
 			for (int i = 0; i < 2; i++) {
-				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 50, 50, level));
+				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 90, 90, level));
 				gameObjects.add(enemy.get(i));
 			}
 			numEnemies = 2;
@@ -99,34 +98,39 @@ public class TestScene extends Scene {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, Constants.WindowDims.width, Constants.WindowDims.height);
-		
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,0.5f));
-		
-		g2d.drawImage(background, 0, 0, (int)Constants.WindowDims.width, (int)Constants.WindowDims.height, null);
-		
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER,1.0f));
+
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+
+		g2d.drawImage(background, 0, 0, (int) Constants.WindowDims.width, (int) Constants.WindowDims.height, null);
+
+		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
 		g2d.setColor(Color.RED);
 
 		// ship.paintComponent(g2d);
-			drawCenteredString(g2d, "Score " + score, scoreFont, Constants.WindowDims.width / 2, 50);
-			drawCenteredString(g2d, "Health " + ship.health, scoreFont, Constants.WindowDims.width - 100, 50);
-			drawCenteredString(g2d, "Level " + level, scoreFont, 100, 50);
+		drawCenteredString(g2d, "Score " + score, scoreFont, Constants.WindowDims.width / 2, 50);
+		drawCenteredString(g2d, "Health " + ship.health, scoreFont, Constants.WindowDims.width - 100, 50);
+		drawCenteredString(g2d, "Level " + level, scoreFont, 100, 50);
 
-			g2d.setColor(Color.WHITE);
-			for (int i = 0; i < stars.size(); i++)
-				g2d.fill(stars.get(i).hitbox);
+		g2d.setColor(Color.WHITE);
+		for (int i = 0; i < stars.size(); i++)
+			g2d.fill(stars.get(i).hitbox);
 
-			ship.paintComponent(g2d);
+		ship.paintComponent(g2d);
 
-			for (int i = 0; i < ship.bullets.size(); i++) {
-				ship.bullets.get(i).paintComponent(g);
-			}
+		for (int i = 0; i < ship.bullets.size(); i++) {
+			ship.bullets.get(i).paintComponent(g);
+		}
 
-			for (int i = 0; i < gameObjects.size(); i++)
-				gameObjects.get(i).paintComponent(g2d);
+		for (int i = 0; i < gameObjects.size(); i++)
+			gameObjects.get(i).paintComponent(g2d);
+		
+		if(readyForNext) {
+			g2d.setColor(Color.RED);
+			drawCenteredString(g2d, "Next level in " + Math.max(Math.round((3-(time-readyNextTime)) * 100)/100.0,0), scoreFont, Constants.WindowDims.width / 2, 400);
+		}
 
-		if(gameEnd) {
+		if (gameEnd) {
 			g2d.setColor(Color.RED);
 
 			if (level < 3)
@@ -141,8 +145,8 @@ public class TestScene extends Scene {
 		}
 		for (int i = 0; i < animationManager.size(); i++)
 			animationManager.get(i).paintComponent(g);
-		
-	//	tmp.paintComponent(g);
+
+		// tmp.paintComponent(g);
 
 	}
 
@@ -265,24 +269,31 @@ public class TestScene extends Scene {
 					animationManager.add(a);
 					score += 100;
 					numEnemies--;
-
+					SoundDriver.playExplosion();
 				}
 
 			}
 		}
-		
-
 
 		if (!gameEnd) {
 			if ((int) time != prevWhole) {
 				score += 10;
 				prevWhole = (int) time;
 			}
-			if (numEnemies == 0) {
+			if (!readyForNext && numEnemies == 0) {
+				//
+				// System.out.println("here1");
+
+				readyForNext = true;
+				readyNextTime = time;
+			}
+			if (readyForNext && time - readyNextTime > 3) {
+				// System.out.println("here2");
 				level++;
 				sceneQueue.add(new TestScene(level, sceneQueue));
 				isDone = true;
 			}
+
 			if (ship.health < 0) {
 				Animation a = new Animation();
 				a.explosion(ship.x, ship.y, new Color(128, 128, 128));
@@ -292,7 +303,7 @@ public class TestScene extends Scene {
 			}
 			for (int q = 0; q < enemy.size(); q++) {
 				if (enemy.get(q).isAlive && ship.getPolygon(0).intersects(enemy.get(q).hitbox)) {
-					//ship.health--;
+					// ship.health--;
 					enemy.get(q).isAlive = false;
 					Animation a = new Animation();
 					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), Color.MAGENTA);
@@ -313,7 +324,7 @@ public class TestScene extends Scene {
 			animationManager.get(i).update(dt);
 		}
 
-	// tmp.update(dt);
+		// tmp.update(dt);
 		// System.out.println("here");
 		// Syste,.doLayout();.println(ship.)
 	}

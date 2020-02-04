@@ -16,6 +16,7 @@ public class Missile extends GameObject {
 		this.s = s;
 		this.color = Color.cyan;
 		// TODO Auto-generated constructor stub
+		SoundDriver.playMissile();
 	}
 	
 	public void paintComponent(Graphics g) {

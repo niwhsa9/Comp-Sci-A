@@ -95,7 +95,7 @@ public class Enemy extends GameObject {
 				super.setDxDy(400*Math.sin(2*t)*Math.cos(t), 400*Math.sin(2*t)*Math.sin(t));
 
 				t+=dt;
-				if(t - prevMissile > 3.5 && (m == null || m.isDone)) {
+				if(t - prevMissile > 5.5 && (m == null || m.isDone)) {
 					prevMissile = t;
 					m = new Missile(x, y, 20, 5, TestScene.ship);
 				}

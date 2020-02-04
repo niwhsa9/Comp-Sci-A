@@ -24,9 +24,28 @@ public class SoundDriver {
 		}
 	}
 
-	public static void playHit() {
+	public static void playShoot() {
 		try {
-		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/hit.wav").getAbsoluteFile());
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/laser.wav").getAbsoluteFile());
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.start();
+		} catch(Exception e) {}
+	}
+	
+	public static void playThrust() {
+		try {
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/thrusters.wav").getAbsoluteFile());
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.start();
+		} catch(Exception e) {}
+	}
+	
+	
+	public static void playMissile() {
+		try {
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/missile.wav").getAbsoluteFile());
         Clip clip = AudioSystem.getClip();
         clip.open(audioInputStream);
         clip.start();
@@ -36,6 +55,15 @@ public class SoundDriver {
 	public static void playBreak() {
 		try {
 		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/break.wav").getAbsoluteFile());
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioInputStream);
+        clip.start();
+		} catch(Exception e) {}
+	}
+	
+	public static void playExplosion() {
+		try {
+		AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/explosion.wav").getAbsoluteFile());
         Clip clip = AudioSystem.getClip();
         clip.open(audioInputStream);
         clip.start();

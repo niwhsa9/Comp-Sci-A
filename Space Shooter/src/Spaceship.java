@@ -89,6 +89,7 @@ public class Spaceship extends GameObject {
 	}
 	
 	public void hurt(int amt) {
+		SoundDriver.playBreak();
 		if(hurt) return;
 		hurt = true;
 		health-=amt;
@@ -107,6 +108,7 @@ public class Spaceship extends GameObject {
 		//Mat lCorner = new Mat(3, 1, new double[] {x})
 		
 		if(Input.keysPressed[Constants.KEY_THRUST] && risingEdgeThrust == false && tmp.getPercent()>0.9) {
+			SoundDriver.playThrust();
 			tmp = new TrapezoidMotionProfile(300, 500, 1200, 500);
 			thrustDir = new Mat(3, 1, new double[] {Math.cos(theta), Math.sin(theta), 1});
 			dphi = 0;
@@ -148,6 +150,7 @@ public class Spaceship extends GameObject {
 			//bullet.clone();
 			bullets.add(bulletL);
 			bullets.add(bulletR);
+			SoundDriver.playShoot();
 		}
 		
 		theta = phi + Math.PI/2;
