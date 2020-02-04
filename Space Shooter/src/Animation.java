@@ -14,7 +14,7 @@ public class Animation {
 	double time = 0;
 	Random rn = new Random();
 	Spaceship s;
-
+	boolean boosted = false;
 	
 	double maxFireDist = 200;
 	
@@ -46,7 +46,7 @@ public class Animation {
 	public void makeFireParticle(int i, boolean init) {
 		double xOff = rn.nextGaussian() * 10;
 		double yOff = 65;
-		if(init) yOff+= Math.abs(rn.nextGaussian()) * 60;
+		//if(init) yOff+= Math.abs(rn.nextGaussian()) * 60;
 		
 		Mat o= new Mat(3, 1, new double[] {xOff, -yOff, 1});
 		o = o.lmul(Mat.rotationMat3x3(s.theta - Math.PI/2));
@@ -62,7 +62,7 @@ public class Animation {
 		
 		if(s.speed > 0 && s.tmp.getPercent() < 0.5) particles[i].color = new Color(0, 0, 255);
 		
-		dxdy[i] = new Point2D.Double(xOff * 2.05, -250 );
+		dxdy[i] = new Point2D.Double(xOff * 2.05, Math.min(-500 * Math.abs(rn.nextGaussian()), -200) );
 		
 	}
 	
