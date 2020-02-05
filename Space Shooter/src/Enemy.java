@@ -17,11 +17,17 @@ public class Enemy extends GameObject {
 	Missile m;
 	ArrayList<GameObject> bullets = new ArrayList<GameObject>();
 	BufferedImage img;
+	double startX;
+	int health = 10;
+	int maxHealth = 10;
 	
-	Enemy(double x, double y, double w, double h, int level) {
+	Enemy(double x, double y, double w, double h, int level, int health) {
 		super(x, y, w, h);
 		this.level = level;
 		this.color = Color.MAGENTA;
+		startX = x;
+		this.health = health;
+		this.maxHealth = health;
 		// TODO Auto-generated constructor stub
 		try {
 			Random rn = new Random();
@@ -37,6 +43,7 @@ public class Enemy extends GameObject {
 		}
 	}
 	double t = 0;
+	double q = 0;
 	
 	boolean enterFlag = false;
 	
@@ -54,14 +61,41 @@ public class Enemy extends GameObject {
 			g2d.transform(transform);
 			g2d.drawImage(img, (int)x, (int)y, (int)width, (int)height, null);
 			g2d.setTransform(original);
+			
+			g2d.setColor(Color.red);
+			
+			double barWidth = ((double)health/(double)maxHealth) * width;
+			g2d.fillRect((int)x, (int)(y+height+5), (int)barWidth, 7);
+			g2d.setColor(Color.white);
+			g2d.drawRect((int)x, (int)(y+height+5), (int)width, 7);
 		}
 		if(m != null) m.paintComponent(g);
 		for(int i = 0; i < bullets.size(); i++) {
 			bullets.get(i).paintComponent(g);
 		}
 		
+		
+
+		
 	}
 
+	public void missileRoutine(double t) {
+		if(t - prevMissile > 6.5 && (m == null || m.isDone)) {
+			prevMissile = t;
+			m = new Missile(x, y, 20, 5, TestScene.ship);
+		}
+	}
+	public void bulletRoutine(double t) {
+		if(t - prevBullet > 1.0) {
+			prevBullet = t;
+			GameObject bullet = new GameObject(x, y, 10, 5);
+			bullet.theta = Math.atan2(TestScene.ship.y - y, TestScene.ship.x - x) + (Math.random()-0.5)*Math.PI/4;
+			bullet.speed = 300;
+			bullet.phi = bullet.theta;
+			bullet.color = Color.blue;
+			bullets.add(bullet);
+		}
+	}
 	
 	public void update(double dt) {
 		super.update(dt);
@@ -87,33 +121,27 @@ public class Enemy extends GameObject {
 			if(y < 200 && enterFlag == false) {
 				theta = Math.PI/4;
 				speed = 100;
+				q+=dt;
 				
 			}
 			else { 
 				enterFlag = true;
 				//super.setDxDy(300*Math.sin(t), 300*Math.cos(t));
 				super.setDxDy(400*Math.sin(2*t)*Math.cos(t), 400*Math.sin(2*t)*Math.sin(t));
-
 				t+=dt;
-				if(t - prevMissile > 5.5 && (m == null || m.isDone)) {
-					prevMissile = t;
-					m = new Missile(x, y, 20, 5, TestScene.ship);
-				}
-				if(t - prevBullet > 1.0) {
-					prevBullet = t;
-					GameObject bullet = new GameObject(x, y, 10, 5);
-					bullet.theta = Math.atan2(TestScene.ship.y - y, TestScene.ship.x - x) + (Math.random()-0.5)*Math.PI/4;
-					bullet.speed = 300;
-					bullet.phi = bullet.theta;
-					bullet.color = Color.blue;
-					bullets.add(bullet);
-				}
+
+				missileRoutine(t);
+				bulletRoutine(t);
+				
 
 			}
-		}  else {
-			if(y < 200 && enterFlag == false) {
-				theta = Math.PI/4;
+		}  else if(level == 2){
+			if(y < 300 && enterFlag == false) {
+				if(startX < Constants.WindowDims.width/2) theta = Math.PI/3;
+				else theta = Math.PI - Math.PI/6;
 				speed = 100;
+				q+=dt;
+				bulletRoutine(q);
 				
 			}
 			else { 
@@ -123,12 +151,12 @@ public class Enemy extends GameObject {
 
 				t+=dt;
 				
-				if(t - prevMissile > 4.5 && (m == null || m.isDone)) {
-					prevMissile = t;
-					m = new Missile(x, y, 20, 5, TestScene.ship);
-				}
+				missileRoutine(t);
+				bulletRoutine(t);
 
 			}
+		} else if (level == 3) {
+			
 		}
 		phi = theta + Math.PI/2; 
 		}

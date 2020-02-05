@@ -54,9 +54,10 @@ public class TestScene extends Scene {
 		}
 	}
 
-	TestScene(int level, Queue<Scene> sceneQueue) {
+	TestScene(int level, int score, int health, Queue<Scene> sceneQueue) {
 		super();
 		this.level = level;
+		this.score = score;
 		this.sceneQueue = sceneQueue;
 
 		try {
@@ -65,23 +66,27 @@ public class TestScene extends Scene {
 
 		}
 
-		ship = new Spaceship(400, 400, 0, 0);
+		ship = new Spaceship(400, 400, 0, 0, health);
 		// tmp = new Missile(0, 0, 20, 10, ship);
 
 		switch (level) {
 		case 1:
 			for (int i = 0; i < 5; i++) {
-				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 90, 90, level));
+				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 90, 90, level, 2));
 				gameObjects.add(enemy.get(i));
 			}
 			numEnemies = 5;
 			break;
 		case 2:
-			for (int i = 0; i < 2; i++) {
-				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 90, 90, level));
+			for (int i = 0; i < 4; i++) {
+				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 90, 90, level, 3));
 				gameObjects.add(enemy.get(i));
 			}
-			numEnemies = 2;
+			for (int i = 4; i < 8; i++) {
+				enemy.add(new Enemy(Constants.WindowDims.width + (70 * i - 90), 0 - 70 * i, 90, 90, level, 5));
+				gameObjects.add(enemy.get(i));
+			}
+			numEnemies = 8;
 			break;
 		default:
 			gameEnd = true;
@@ -91,7 +96,7 @@ public class TestScene extends Scene {
 		}
 		gameObjects.add(ship);
 
-		makeStars(800);
+		makeStars(400);
 	}
 
 	public void paintComponent(Graphics g) {
@@ -259,17 +264,30 @@ public class TestScene extends Scene {
 			ship.bullets.get(i).update(dt);
 			for (int q = 0; q < enemy.size(); q++) {
 				if (enemy.get(q).isAlive && ship.bullets.get(i).hitbox.intersects(enemy.get(q).hitbox)) {
-					enemy.get(q).isAlive = false;
 
 					ship.bullets.remove(i);
 					i--;
-
-					Animation a = new Animation();
-					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), enemy.get(q).color);
-					animationManager.add(a);
-					score += 100;
-					numEnemies--;
-					SoundDriver.playExplosion();
+					enemy.get(q).health--;
+					
+					
+					if(enemy.get(q).health <= 0) {
+						enemy.get(q).isAlive = false;
+						Animation a = new Animation();
+						a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), new Color(128, 128, 128));
+						animationManager.add(a);
+						score += 100;
+						numEnemies--;
+					
+						SoundDriver.playExplosion();
+					} else {
+						//System.out.println("here");
+						double theta = -Math.atan2(ship.bullets.get(i).y - enemy.get(i).y, ship.bullets.get(i).x - enemy.get(i).x);
+						SoundDriver.playBreak();
+						Animation r = new Animation();
+						r.directionalExplosion(enemy.get(q).centerX(), enemy.get(q).centerY(), theta, new Color(128, 128, 128));
+						animationManager.add(r);
+					}
+					continue;
 				}
 
 			}
@@ -290,7 +308,7 @@ public class TestScene extends Scene {
 			if (readyForNext && time - readyNextTime > 3) {
 				// System.out.println("here2");
 				level++;
-				sceneQueue.add(new TestScene(level, sceneQueue));
+				sceneQueue.add(new TestScene(level,score, ship.health, sceneQueue));
 				isDone = true;
 			}
 

@@ -21,6 +21,7 @@ public class Spaceship extends GameObject {
 	ArrayList<GameObject> enemyBullet = new ArrayList<GameObject>();
 	ArrayList<Missile> enemyMissile = new ArrayList<Missile>();
 	int health = 100;
+	int maxHealth = 100;
 
 	Animation fire;
 	
@@ -34,9 +35,10 @@ public class Spaceship extends GameObject {
 	boolean visible = true;
 
 
-	Spaceship(double x, double y, double w, double h) {
+	Spaceship(double x, double y, double w, double h, int health) {
 		super(x, y, w, h, true);
 		// TODO Auto-generated constructor stub
+		this.health = health;
 		xData = new int[2][];
 		yData = new int[2][];
 		layers = new Color[2];
@@ -81,7 +83,12 @@ public class Spaceship extends GameObject {
 			
 		}
 		
-		g2d.setColor(Color.BLUE);
+		g2d.setColor(Color.GREEN);
+		
+		double barWidth = ((double)health/(double)maxHealth) * 100;
+		g2d.fillRect((int)x-50, (int)(y+100+5), (int)barWidth, 7);
+		g2d.setColor(Color.white);
+		g2d.drawRect((int)x-50, (int)(y+100+5), (int)100, 7);
 
 		//g2d.fill(getPolygon(0));
 	//	g2d.fill(hitbox);
