@@ -41,15 +41,19 @@ public class TestScene extends Scene {
 
 			double x = Math.random() * Constants.WindowDims.width;
 			double y = Math.random() * Constants.WindowDims.height;
-			double size = rn.nextInt(4);
+			double size = rn.nextInt(6);
 			double width = 1 * size * 1;
 			double height = 1 * size * 1;
 			double theta = Math.PI / 2;
-			double speed = 30 * size;
+			double speed = 6 * size * size;
 			GameObject star = new GameObject(x, y, width, height);
 			star.theta = theta;
 			star.speed = speed;
-			star.color = Color.white;
+			
+			star.color = new Color( (int)(255), (int)Math.abs((255 * Math.random())), 255, 255);
+
+			
+			//star.color = new Color(255, 255, 255, 128);
 			stars.add(star);
 		}
 	}
@@ -75,7 +79,13 @@ public class TestScene extends Scene {
 				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 90, 90, level, 2));
 				gameObjects.add(enemy.get(i));
 			}
-			numEnemies = 5;
+			Boss b = new Boss(300, 300, 200, 200, level, 80);
+			b.setCenterX(Constants.WindowDims.width/2);
+			
+			enemy.add(b);
+
+			gameObjects.add(b);
+			numEnemies = 6;
 			break;
 		case 2:
 			for (int i = 0; i < 4; i++) {
@@ -117,9 +127,10 @@ public class TestScene extends Scene {
 		drawCenteredString(g2d, "Health " + ship.health, scoreFont, Constants.WindowDims.width - 100, 50);
 		drawCenteredString(g2d, "Level " + level, scoreFont, 100, 50);
 
-		g2d.setColor(Color.WHITE);
-		for (int i = 0; i < stars.size(); i++)
+		for (int i = 0; i < stars.size(); i++) {
+			g2d.setColor(stars.get(i).color);
 			g2d.fill(stars.get(i).hitbox);
+		}
 
 		ship.paintComponent(g2d);
 
@@ -322,12 +333,14 @@ public class TestScene extends Scene {
 			for (int q = 0; q < enemy.size(); q++) {
 				if (enemy.get(q).isAlive && ship.getPolygon(0).intersects(enemy.get(q).hitbox)) {
 					// ship.health--;
+					if(!(enemy.get(q) instanceof Boss)) {
 					enemy.get(q).isAlive = false;
 					Animation a = new Animation();
-					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), Color.MAGENTA);
+					a.explosion(enemy.get(q).centerX(), enemy.get(q).centerY(), new Color(128, 128, 128));
 					animationManager.add(a);
 					ship.hurt(10);
 					numEnemies--;
+					}
 				}
 			}
 		}

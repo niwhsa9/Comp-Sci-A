@@ -2,14 +2,14 @@ import java.awt.Dimension;
 
 public class Constants {
 	/** Game Constants **/
-	public static final Dimension WindowDims = new Dimension(800, 800);
+	public static final Dimension WindowDims = new Dimension(1000, 800);
 	public static final String WindowName = "Pong";
 	public static final int GraphicsPeriod = 10;
 	public static final int GamePeriod = 10;
 	
 	/** Spaceship Constants **/
 	public static final double THRUST_ACCEL = 1000;
-	public static final double SHIP_ROTATE_VELO = Math.PI/1.3 ;
+	public static final double SHIP_ROTATE_VELO = Math.PI/1.1 ;
 	public static final double BULLET_SPEED = 500;
 	public static final double BULLET_WIDTH = 5;
 	public static final double BULLET_HEIGHT = 10;

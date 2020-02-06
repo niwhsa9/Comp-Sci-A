@@ -13,7 +13,7 @@ public class Animation {
 	int animation = -1;
 	double time = 0;
 	Random rn = new Random();
-	Spaceship s;
+	GameObject s;
 	boolean boosted = false;
 	
 	double maxFireDist = 200;
@@ -46,6 +46,8 @@ public class Animation {
 	public void makeFireParticle(int i, boolean init) {
 		double xOff = rn.nextGaussian() * 10;
 		double yOff = 65;
+		//if(s instanceof Boss) yOff = 0;
+		//if(s instanceof Boss) xOff -= s.width/2;
 		//if(init) yOff+= Math.abs(rn.nextGaussian()) * 60;
 		
 		Mat o= new Mat(3, 1, new double[] {xOff, -yOff, 1});
@@ -60,14 +62,14 @@ public class Animation {
 		
 		particles[i].color = new Color(255, 0, 0);
 		
-		if(s.speed > 0 && s.tmp.getPercent() < 0.5) particles[i].color = new Color(0, 0, 255);
+		if(s instanceof Spaceship && s.speed > 0 && ((Spaceship)s).tmp.getPercent() < 0.5) particles[i].color = new Color(0, 0, 255);
 		
 		dxdy[i] = new Point2D.Double(xOff * 2.05, Math.min(-500 * Math.abs(rn.nextGaussian()), -200) );
 		
 	}
 	
 	
-	public void fire(Spaceship s) {
+	public void fire(GameObject s) {
 		this.s = s;
 		animation = 1;
 		startTime = time;

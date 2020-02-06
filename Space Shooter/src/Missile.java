@@ -19,6 +19,15 @@ public class Missile extends GameObject {
 		SoundDriver.playMissile();
 	}
 	
+	Missile(double x, double y, double w, double h, double theta, Spaceship s) {
+		super(x, y, w, h);
+		this.s = s;
+		this.color = Color.cyan;
+		this.theta = theta;
+		// TODO Auto-generated constructor stub
+		SoundDriver.playMissile();
+	}
+	
 	public void paintComponent(Graphics g) {
 		if(!isDone) {
 			super.paintComponent(g);
