@@ -15,11 +15,13 @@ public class Animation {
 	Random rn = new Random();
 	GameObject s;
 	boolean boosted = false;
+	boolean isDone = false;
 	
 	double maxFireDist = 200;
 	
 	
 	public void explosion(double x, double y, Color color) {
+		isDone = false;
 		animation = 0;
 		startTime = time;
 		particles = new GameObject[40];
@@ -32,6 +34,7 @@ public class Animation {
 	}
 	
 	public void directionalExplosion(double x, double y, double theta, Color color) {
+		isDone = false;
 		animation = 3;
 		startTime = time;
 		particles = new GameObject[40];
@@ -96,6 +99,8 @@ public class Animation {
 	public void update(double dt) {
 		time+=dt;
 		
+		if(isDone) return;
+		
 		if(animation == 0) {
 			for(int i = 0; i < particles.length; i++) {
 				//particles[i].theta += 0.02;
@@ -159,13 +164,17 @@ public class Animation {
 	
 	public void paintComponent(Graphics g) {
 		if(animation != -1) {
+			if(isDone) return;
+			boolean done = true;
 			for(int i = 0; i < particles.length; i++) {
 				try {
+					if(particles[i].isVisible() && particles[i].color.getAlpha()>1) done = false;
 					particles[i].paintComponent(g);
 				} catch(Exception e) {
 					System.out.println("NULL PTR: " + i + time +"|" + startTime + " anim " + animation);
 				}
 			}
+			if(done) isDone = true;
 		}
 	}
 	

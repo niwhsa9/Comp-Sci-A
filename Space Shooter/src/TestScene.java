@@ -30,11 +30,14 @@ public class TestScene extends Scene {
 	// int lives = 3;
 	int score = 0;
 	int prevWhole = 0;
-	double time = 0;
+	static double time = 0;
 	int numEnemies;
 	boolean gameEnd = false;
 	boolean readyForNext = false;
 	double readyNextTime;
+	
+	static boolean shake = false;
+	static double shakeTime = 0;
 
 	public void makeStars(int n) {
 		for (int i = 0; i < n; i++) {
@@ -79,13 +82,8 @@ public class TestScene extends Scene {
 				enemy.add(new Enemy(0 - (70 * i), 0 - 70 * i, 90, 90, level, 2));
 				gameObjects.add(enemy.get(i));
 			}
-			Boss b = new Boss(300, 300, 200, 200, level, 80);
-			b.setCenterX(Constants.WindowDims.width/2);
-			
-			enemy.add(b);
-
-			gameObjects.add(b);
-			numEnemies = 6;
+		
+			numEnemies = 5;
 			break;
 		case 2:
 			for (int i = 0; i < 4; i++) {
@@ -97,6 +95,15 @@ public class TestScene extends Scene {
 				gameObjects.add(enemy.get(i));
 			}
 			numEnemies = 8;
+			break;
+		case 3: 
+			Boss b = new Boss(300, -200, 200, 200, level, 80);
+			b.setCenterX(Constants.WindowDims.width/2);
+			
+			enemy.add(b);
+
+			gameObjects.add(b);
+			numEnemies = 1;
 			break;
 		default:
 			gameEnd = true;
@@ -113,6 +120,8 @@ public class TestScene extends Scene {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, Constants.WindowDims.width, Constants.WindowDims.height);
+		
+		if(shake) g2d.translate(Math.random()*10, Math.random()*10);
 
 		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
@@ -251,9 +260,18 @@ public class TestScene extends Scene {
 
 	}
 
+	public static void shake() {
+		shake = true;
+		shakeTime = time;
+	}
+	
 	public void update(double dt) {
 		time += dt;
 		// ship.update(dt);
+		if(time - shakeTime > 0.6) {
+			shake = false;
+		}
+		
 		for (int i = 0; i < gameObjects.size(); i++)
 			gameObjects.get(i).update(dt);
 
@@ -288,6 +306,7 @@ public class TestScene extends Scene {
 						animationManager.add(a);
 						score += 100;
 						numEnemies--;
+						TestScene.shake();
 					
 						SoundDriver.playExplosion();
 					} else {
@@ -295,6 +314,7 @@ public class TestScene extends Scene {
 						double theta = -Math.atan2(ship.bullets.get(i).y - enemy.get(i).y, ship.bullets.get(i).x - enemy.get(i).x);
 						SoundDriver.playBreak();
 						Animation r = new Animation();
+						//System.out.println("here");
 						r.directionalExplosion(enemy.get(q).centerX(), enemy.get(q).centerY(), theta, new Color(128, 128, 128));
 						animationManager.add(r);
 					}
@@ -340,6 +360,7 @@ public class TestScene extends Scene {
 					animationManager.add(a);
 					ship.hurt(10);
 					numEnemies--;
+					shake();
 					}
 				}
 			}

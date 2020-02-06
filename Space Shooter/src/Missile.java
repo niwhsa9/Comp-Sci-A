@@ -55,6 +55,7 @@ public class Missile extends GameObject {
 			collision.directionalExplosion(x, y, Math.PI+theta, Color.RED);
 			//collision.explosion(x, y, new Color(255, 0, 0));
 			s.hurt(10);
+			TestScene.shake();
 			
 		}
 		if(leftX() > Constants.WindowDims.width || rightX() < 0 || topY() > Constants.WindowDims.height || bottomY() < 0) isDone = true;

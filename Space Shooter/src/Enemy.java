@@ -92,7 +92,7 @@ public class Enemy extends GameObject {
 			bullet.theta = Math.atan2(TestScene.ship.y - y, TestScene.ship.x - x) + (Math.random()-0.5)*Math.PI/4;
 			bullet.speed = 300;
 			bullet.phi = bullet.theta;
-			bullet.color = Color.blue;
+			bullet.color = Color.yellow;
 			bullets.add(bullet);
 		}
 	}
