@@ -21,6 +21,8 @@ public class TestScene extends Scene {
 	ArrayList<GameObject> stars = new ArrayList<GameObject>();
 	Queue<Scene> sceneQueue;
 	Font scoreFont = new Font("Serif", Font.BOLD, 30);
+	Font fpsFont = new Font("Serif", Font.BOLD, 12);
+
 	ArrayList<Animation> animationManager = new ArrayList<Animation>();
 	BufferedImage background;
 	// Missile tmp;// = new Missile(0, 0, 20, 10, ship);
@@ -35,6 +37,8 @@ public class TestScene extends Scene {
 	boolean gameEnd = false;
 	boolean readyForNext = false;
 	double readyNextTime;
+	double prevFrame = 0;
+	double fps = 0;
 	
 	static boolean shake = false;
 	static double shakeTime = 0;
@@ -113,13 +117,17 @@ public class TestScene extends Scene {
 		}
 		gameObjects.add(ship);
 
-		makeStars(400);
+		makeStars(200);
 	}
 
 	public void paintComponent(Graphics g) {
+		fps = 1/(time - prevFrame);
+		prevFrame = time;
+		
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
 		g2d.fillRect(0, 0, Constants.WindowDims.width, Constants.WindowDims.height);
+		
 		
 		if(shake) g2d.translate(Math.random()*10, Math.random()*10);
 
@@ -132,17 +140,19 @@ public class TestScene extends Scene {
 		g2d.setColor(Color.RED);
 
 		// ship.paintComponent(g2d);
+		drawCenteredString(g2d, "fps " + (int)Math.round(fps*100)/100, fpsFont, (int)(Constants.WindowDims.width * 0.8), 20);
+
 		drawCenteredString(g2d, "Score " + score, scoreFont, Constants.WindowDims.width / 2, 50);
 		drawCenteredString(g2d, "Health " + ship.health, scoreFont, Constants.WindowDims.width - 100, 50);
 		drawCenteredString(g2d, "Level " + level, scoreFont, 100, 50);
-
+		
 		for (int i = 0; i < stars.size(); i++) {
 			g2d.setColor(stars.get(i).color);
 			g2d.fill(stars.get(i).hitbox);
 		}
 
 		ship.paintComponent(g2d);
-
+		
 		for (int i = 0; i < ship.bullets.size(); i++) {
 			ship.bullets.get(i).paintComponent(g);
 		}
@@ -267,6 +277,7 @@ public class TestScene extends Scene {
 	
 	public void update(double dt) {
 		time += dt;
+	
 		// ship.update(dt);
 		if(time - shakeTime > 0.6) {
 			shake = false;

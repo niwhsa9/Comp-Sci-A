@@ -4,8 +4,8 @@ public class Constants {
 	/** Game Constants **/
 	public static final Dimension WindowDims = new Dimension(1000, 800);
 	public static final String WindowName = "Pong";
-	public static final int GraphicsPeriod = 10;
-	public static final int GamePeriod = 10;
+	public static final int GraphicsPeriod = 2;
+	public static final int GamePeriod = 7;
 	
 	/** Spaceship Constants **/
 	public static final double THRUST_ACCEL = 1000;
