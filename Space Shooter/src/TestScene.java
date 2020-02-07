@@ -72,7 +72,7 @@ public class TestScene extends Scene {
 		this.sceneQueue = sceneQueue;
 
 		try {
-			background = ImageIO.read(new File("images/background.jpg"));
+			background = ImageIO.read(new File("images/dark.jpg"));
 		} catch (Exception e) {
 
 		}
@@ -121,8 +121,11 @@ public class TestScene extends Scene {
 	}
 
 	public void paintComponent(Graphics g) {
-		fps = 1/(time - prevFrame);
-		prevFrame = time;
+		//fps = 1.0/(time - prevFrame);
+		//prevFrame = time;
+		double t = System.currentTimeMillis()/1000.0;
+		fps = 1.0/(t- prevFrame);
+		prevFrame = t;
 		
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setColor(Color.BLACK);
@@ -130,12 +133,12 @@ public class TestScene extends Scene {
 		
 		
 		if(shake) g2d.translate(Math.random()*10, Math.random()*10);
-
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
+		
+		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
 
 		g2d.drawImage(background, 0, 0, (int) Constants.WindowDims.width, (int) Constants.WindowDims.height, null);
 
-		g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
+		//g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 
 		g2d.setColor(Color.RED);
 
@@ -161,6 +164,7 @@ public class TestScene extends Scene {
 			gameObjects.get(i).paintComponent(g2d);
 		
 		if(readyForNext) {
+			//ship.speed = 0;
 			g2d.setColor(Color.RED);
 			drawCenteredString(g2d, "Next level in " + Math.max(Math.round((3-(time-readyNextTime)) * 100)/100.0,0), scoreFont, Constants.WindowDims.width / 2, 400);
 		}
@@ -346,6 +350,7 @@ public class TestScene extends Scene {
 
 				readyForNext = true;
 				readyNextTime = time;
+				
 			}
 			if (readyForNext && time - readyNextTime > 3) {
 				// System.out.println("here2");
