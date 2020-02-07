@@ -172,14 +172,14 @@ public class TestScene extends Scene {
 		if (gameEnd) {
 			g2d.setColor(Color.RED);
 
-			if (level < 3)
+			if (ship.health < 0)
 				drawCenteredString(g2d, "Game Over. You scored: " + score, scoreFont, Constants.WindowDims.width / 2,
 						400);
 			else
 				drawCenteredString(g2d, "You won! You scored: " + score, scoreFont, Constants.WindowDims.width / 2,
 						400);
 
-			drawCenteredString(g2d, "Press space to return to menu", scoreFont, Constants.WindowDims.width / 2, 500);
+			drawCenteredString(g2d, "Press enter to return to menu", scoreFont, Constants.WindowDims.width / 2, 500);
 
 		}
 		for (int i = 0; i < animationManager.size(); i++)
@@ -383,7 +383,7 @@ public class TestScene extends Scene {
 		}
 
 		if (gameEnd) {
-			if (Input.keysPressed[Constants.KEY_SPACE]) {
+			if (Input.keysPressed[10]) {
 				sceneQueue.add(new Menu(sceneQueue));
 				isDone = true;
 			}
